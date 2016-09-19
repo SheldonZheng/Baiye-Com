@@ -48,6 +48,8 @@ dependencies {
 
     compile group: 'org.scala-lang', name: 'scala-reflect', version: '2.11.8'
 
+    compile group: 'io.netty', name: 'netty-all', version: '4.1.5.Final'
+
     testCompile "junit:junit:4.11"
 }
 
