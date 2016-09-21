@@ -51,4 +51,8 @@ public class EchoServerJava {
         }
     }
 
+    public static void main(String[] args) throws Exception {
+        new EchoServerJava(9999).run();
+    }
+
 }
