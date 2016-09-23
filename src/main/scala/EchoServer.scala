@@ -13,15 +13,17 @@ class EchoServer {
 
   def run(): Unit =
   {
-    var bossGroup = new NioEventLoopGroup()
-    var workerGroup = new NioEventLoopGroup()
+    var bossGroup : EventLoopGroup = new NioEventLoopGroup()
+    var workerGroup : EventLoopGroup = new NioEventLoopGroup()
 
-    var b = new ServerBootstrap()
+    var b : ServerBootstrap = new ServerBootstrap()
 
     try
     {
+
       b.group(bossGroup,workerGroup)
         .channel(classOf[NioServerSocketChannel])
+            .option[Integer](ChannelOption.SO_BACKLOG,100)
         .handler(new LoggingHandler(LogLevel.INFO))
         .childHandler(new ChannelInitializer[SocketChannel]() {
           @throws[Exception]
