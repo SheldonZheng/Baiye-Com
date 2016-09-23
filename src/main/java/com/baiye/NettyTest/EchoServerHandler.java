@@ -28,4 +28,9 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter{
         logger.error("ERROR!");
         ctx.close();
     }
+
+    @Override
+    public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+        System.out.println(11111);
+    }
 }
