@@ -27,8 +27,8 @@ class EchoServerScala {
         .handler(new LoggingHandler(LogLevel.INFO))
         .childHandler(new ChannelInitializer[SocketChannel]() {
           @throws[Exception]
-          protected def initChannel(ch: SocketChannel) {
-            ch.pipeline.addLast(new EchoServerHandler)
+          override protected def initChannel(ch: SocketChannel) {
+            ch.pipeline.addLast(new EchoServerHandlerScala)
           }
         })
 
