@@ -1,6 +1,6 @@
 import com.baiye.NettyTest.EchoServerHandler
 import io.netty.bootstrap.ServerBootstrap
-import io.netty.channel.{ChannelInitializer, ChannelOption, EventLoopGroup}
+import io.netty.channel._
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
@@ -9,7 +9,7 @@ import io.netty.handler.logging.{LogLevel, LoggingHandler}
 /**
   * Created by Baiye on 2016/9/19.
   */
-class EchoServer {
+class EchoServerScala {
 
   def run(): Unit =
   {
@@ -23,7 +23,7 @@ class EchoServer {
 
       b.group(bossGroup,workerGroup)
         .channel(classOf[NioServerSocketChannel])
-            .option[Integer](ChannelOption.SO_BACKLOG,100)
+        .option[Integer](ChannelOption.SO_BACKLOG,100)
         .handler(new LoggingHandler(LogLevel.INFO))
         .childHandler(new ChannelInitializer[SocketChannel]() {
           @throws[Exception]
@@ -46,10 +46,7 @@ class EchoServer {
 
 }
 
-object EchoServerMain
-{
-  def main(args: Array[String]) {
-    var server = new EchoServer
-    server.run()
-  }
-}
+
+
+
+
