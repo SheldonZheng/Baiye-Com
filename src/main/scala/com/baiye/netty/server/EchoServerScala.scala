@@ -1,4 +1,5 @@
-import com.baiye.NettyTest.EchoServerHandler
+package com.baiye.netty.server
+
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel._
 import io.netty.channel.nio.NioEventLoopGroup

@@ -1,3 +1,5 @@
+package com.baiye.netty.client
+
 import io.netty.buffer.{ByteBuf, Unpooled}
 import io.netty.channel.{ChannelHandlerContext, ChannelInboundHandlerAdapter}
 import io.netty.util.CharsetUtil

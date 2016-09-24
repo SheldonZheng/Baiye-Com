@@ -1,8 +1,10 @@
-import io.netty.channel.nio.NioEventLoopGroup
+package com.baiye.netty.client
+
 import io.netty.bootstrap.Bootstrap
+import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
-import io.netty.channel.{ChannelInitializer, ChannelOption}
 import io.netty.channel.socket.nio.NioSocketChannel
+import io.netty.channel.{ChannelInitializer, ChannelOption}
 
 /**
   * Created by Baiye on 2016/9/23.
