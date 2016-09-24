@@ -4,7 +4,7 @@
 object EchoClientScalaMain {
 
   def main(args: Array[String]) {
-    var client = new EchoClientScala(9999,"127.0.0.1")
+    var client = new EchoClientScala(9999,"127.0.0.1","afdssfdasfda")
     client.run()
   }
 

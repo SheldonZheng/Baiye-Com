@@ -1,16 +1,34 @@
-import io.netty.channel.{ChannelHandlerContext, ChannelInboundHandlerAdapter}
+import io.netty.buffer.{ByteBuf, Unpooled}
+import io.netty.channel.{ChannelFuture, ChannelFutureListener, ChannelHandlerContext, ChannelInboundHandlerAdapter}
+import io.netty.util.CharsetUtil
 
 /**
-  * Created by Baiye on 2016/9/23.
-  */
+  * Created by Baiye on2016/9/23.
+*/
 class EchoServerHandlerScala extends ChannelInboundHandlerAdapter
 {
   override def channelRead(ctx: ChannelHandlerContext, msg: scala.Any): Unit =
   {
-    println(msg);
+    var in : ByteBuf =  msg.asInstanceOf[ByteBuf];
+    println("Server : " + in.toString(CharsetUtil.UTF_8))
+    ctx.write(in);
+    ctx.flush();
   }
 
-  override def channelRegistered(ctx: ChannelHandlerContext): Unit = super.channelRegistered(ctx)
+  override def channelReadComplete(ctx: ChannelHandlerContext): Unit =
+  {
+    ctx.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE)
+  }
 
-  override def channelReadComplete(ctx: ChannelHandlerContext): Unit = super.channelReadComplete(ctx)
+  override def exceptionCaught(ctx: ChannelHandlerContext, cause: Throwable): Unit =
+  {
+    cause.printStackTrace()
+    ctx.close()
+  }
+
+  override def channelRegistered(ctx: ChannelHandlerContext): Unit =
+  {
+    println("Connected")
+    super.channelRegistered(ctx)
+  }
 }

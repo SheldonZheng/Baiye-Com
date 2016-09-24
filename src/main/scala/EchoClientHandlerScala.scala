@@ -1,28 +1,30 @@
+import io.netty.buffer.{ByteBuf, Unpooled}
 import io.netty.channel.{ChannelHandlerContext, ChannelInboundHandlerAdapter}
+import io.netty.util.CharsetUtil
 
 /**
   * Created by Baiye on 2016/9/23.
   */
 class EchoClientHandlerScala(var messgae:String) extends ChannelInboundHandlerAdapter{
-  override def channelRead(ctx: ChannelHandlerContext, msg: scala.Any): Unit =
-  {
-    println(messgae)
-  }
 
-  override def channelReadComplete(ctx: ChannelHandlerContext): Unit =
+
+  override def exceptionCaught(ctx: ChannelHandlerContext, cause: Throwable): Unit =
   {
-    ctx.flush()
+    cause.printStackTrace();
+    ctx.close();
   }
 
   override def channelActive(ctx: ChannelHandlerContext): Unit =
   {
-    println(messgae)
-    ctx.writeAndFlush(messgae)
-
+    ctx.writeAndFlush(Unpooled.copiedBuffer("fdasfdsasdaf",CharsetUtil.UTF_8))
   }
 
-  override def exceptionCaught(ctx: ChannelHandlerContext, cause: Throwable): Unit =
+  override def channelRead(ctx: ChannelHandlerContext, msg: scala.Any): Unit =
   {
-    println("ERROR!");
+    var in : ByteBuf = msg.asInstanceOf[ByteBuf]
+    println("Client : " + in.toString(CharsetUtil.UTF_8))
   }
+
+  override def channelReadComplete(ctx: ChannelHandlerContext): Unit = ctx.flush()
+
 }

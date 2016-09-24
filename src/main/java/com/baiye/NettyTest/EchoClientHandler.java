@@ -4,44 +4,23 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.util.CharsetUtil;
 
 /**
  * Created by Baiye on 2016/9/21.
  */
-public class EchoClientHandler extends ChannelInboundHandlerAdapter{
+public class EchoClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
-
-    private final ByteBuf firstMessage;
-
-    public EchoClientHandler(int firstMessageSize) {
-
-        firstMessage = Unpooled.buffer(firstMessageSize);
-        for(int i = 0;i < firstMessage.capacity();i++)
-        {
-            firstMessage.writeByte((byte)i);
-        }
-    }
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ctx.write(msg);
-    }
-
-    @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        ctx.flush();
-    }
-
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        System.err.println("EchoClientHandler Exception");
-        System.err.println(cause);
-        ctx.close();
+    protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
+        System.out.println("Client : " + msg.toString(CharsetUtil.UTF_8));
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(firstMessage);
-        ctx.writeAndFlush(firstMessage);
+        System.out.println(1);
+        ctx.writeAndFlush(Unpooled.copiedBuffer("fdasfdsasdaf",CharsetUtil.UTF_8));
     }
 }

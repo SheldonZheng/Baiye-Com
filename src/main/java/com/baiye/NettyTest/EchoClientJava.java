@@ -36,7 +36,7 @@ public class EchoClientJava {
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
-                            new EchoClientHandler(firstMessageSize);
+                            new EchoClientHandler();
                         }
                     });
 

@@ -23,7 +23,7 @@ class EchoClientScala(val port: Int,val host:String,val firstMessage:String = "1
           .handler(new ChannelInitializer[SocketChannel] {
             override def initChannel(ch: SocketChannel): Unit =
             {
-                new EchoClientHandlerScala(firstMessage)
+                ch.pipeline().addLast(new EchoClientHandlerScala(firstMessage))
             }
           })
 
