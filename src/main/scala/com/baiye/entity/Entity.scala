@@ -3,8 +3,11 @@ package com.baiye.entity
 /**
   * Created by Baiye on 2016/9/24.
   */
-case class Entity{
+case class Entity(name:String,  value:String){
 
-  var name:String = "1"
+  def this() = { this("","") }
+
+  def this(name:String) = {   this(name,"") }
+
 
 }

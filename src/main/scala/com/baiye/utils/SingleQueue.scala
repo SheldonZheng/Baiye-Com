@@ -8,13 +8,7 @@ import com.baiye.entity.Entity
   * Created by Baiye on 2016/9/24.
   */
 
-class SingleQueue private
-{
-  def queue(): ConcurrentLinkedQueue[Entity] =
-  {
-    new ConcurrentLinkedQueue[Entity]()
-  }
-}
+
 
 
 object SingleQueue {
@@ -28,4 +22,14 @@ object SingleQueue {
     }
 
 
+
+}
+
+class SingleQueue private
+{
+  val concurrentLinkedQueue = new ConcurrentLinkedQueue[Entity]()
+  def queue(): ConcurrentLinkedQueue[Entity] =
+  {
+    concurrentLinkedQueue
+  }
 }
