@@ -1,8 +1,9 @@
 package com.baiye.utils
 
-import java.util.concurrent.ConcurrentLinkedQueue
 
 import com.baiye.entity.Entity
+
+import scala.actors.threadpool.LinkedBlockingQueue
 
 /**
   * Created by Baiye on 2016/9/24.
@@ -12,10 +13,16 @@ object SingleQueue {
   val singleQueue = new SingleQueue
 
 
-    def getInstance(): ConcurrentLinkedQueue[Entity] =
+    def getWaitExceuteQueue(): LinkedBlockingQueue[Entity] =
     {
-      singleQueue.queue()
+      singleQueue.getWaitExceuteQueue()
     }
+
+  def getWaitSendQueue() : LinkedBlockingQueue[Entity] =
+  {
+    singleQueue.getWaitSendQueue()
+  }
+
 
 
 
@@ -23,9 +30,17 @@ object SingleQueue {
 
 class SingleQueue private
 {
-  val concurrentLinkedQueue = new ConcurrentLinkedQueue[Entity]()
-  def queue(): ConcurrentLinkedQueue[Entity] =
+  val waitExceuteQueue : LinkedBlockingQueue[Entity] = new LinkedBlockingQueue[Entity]()
+
+  val waitSendQueue : LinkedBlockingQueue[Entity] = new LinkedBlockingQueue[Entity]()
+
+  def getWaitExceuteQueue(): LinkedBlockingQueue[Entity] =
   {
-    concurrentLinkedQueue
+    waitExceuteQueue
+  }
+
+  def getWaitSendQueue() : LinkedBlockingQueue[Entity] =
+  {
+    waitSendQueue
   }
 }
