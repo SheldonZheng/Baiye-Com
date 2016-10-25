@@ -6,7 +6,7 @@ package com.baiye.netty.client
 object NettyClientMain {
 
   def main(args: Array[String]) {
-    var client = new NettyClient(9999,"127.0.0.1","afdssfdasfda")
+    var client = new NettyClient(9999,"127.0.0.1")
     client.run()
   }
 

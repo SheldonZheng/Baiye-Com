@@ -1,6 +1,8 @@
 package com.baiye.utils
 
 
+import java.util.concurrent.ConcurrentLinkedQueue
+
 import com.baiye.entity.Entity
 
 import scala.actors.threadpool.LinkedBlockingQueue

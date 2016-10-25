@@ -5,12 +5,13 @@ import io.netty.channel._
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
+import io.netty.handler.codec.serialization.{ClassResolvers, ObjectDecoder, ObjectEncoder}
 import io.netty.handler.logging.{LogLevel, LoggingHandler}
 
 /**
   * Created by Baiye on 2016/9/19.
   */
-class EchoServerScala {
+class NettyServer(val port : Int) {
 
   def run(): Unit =
   {
@@ -29,11 +30,15 @@ class EchoServerScala {
         .childHandler(new ChannelInitializer[SocketChannel]() {
           @throws[Exception]
           override protected def initChannel(ch: SocketChannel) {
-            ch.pipeline.addLast(new EchoServerHandlerScala)
+            ch.pipeline.addLast(
+              new ObjectEncoder,
+              new ObjectDecoder(Integer.MAX_VALUE,ClassResolvers.cacheDisabled(this.getClass.getClassLoader)),
+              new NettyServerHandler
+            )
           }
         })
 
-      var f = b.bind(9999).sync()
+      var f = b.bind(port).sync()
 
       f.channel().closeFuture().sync()
     }
