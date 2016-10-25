@@ -11,7 +11,7 @@ import io.netty.handler.logging.{LogLevel, LoggingHandler}
 /**
   * Created by Baiye on 2016/9/19.
   */
-class NettyServer(val port : Int) {
+class NettyServer(val port : Int) extends Runnable{
 
   def run(): Unit =
   {

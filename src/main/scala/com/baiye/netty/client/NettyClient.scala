@@ -10,7 +10,7 @@ import io.netty.handler.codec.serialization.{ClassResolvers, ObjectDecoder, Obje
 /**
   * Created by Baiye on 2016/9/23.
   */
-class NettyClient(val port: Int, val host:String) {
+class NettyClient(val port: Int, val host:String) extends Runnable{
 
   def run() : Unit =
   {
