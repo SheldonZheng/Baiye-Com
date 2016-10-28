@@ -1,7 +1,7 @@
 package com.baiye.netty.server
 
 import com.baiye.entity.Entity
-import com.baiye.utils.SingleQueue
+import com.baiye.utils.{SendExcuter, SingleQueue}
 import io.netty.buffer.{ByteBuf, Unpooled}
 import io.netty.channel.{ChannelFutureListener, ChannelHandlerContext, ChannelInboundHandlerAdapter}
 import io.netty.util.CharsetUtil
@@ -73,7 +73,8 @@ class NettyServerHandler extends ChannelInboundHandlerAdapter
 
   override def channelActive(ctx: ChannelHandlerContext): Unit =
   {
-
+    val sendQueueExcuterThread = new SendExcuter(ctx)
+    new Thread(sendQueueExcuterThread).start()
 
   }
 

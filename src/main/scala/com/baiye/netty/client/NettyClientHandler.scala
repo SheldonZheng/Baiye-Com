@@ -35,30 +35,6 @@ class NettyClientHandler() extends ChannelInboundHandlerAdapter{
     new Thread(sendQueueExcuterThread).start()
 
 
-   /* var before = System.currentTimeMillis()
-    println(before)
-    for(i <- 1 to 10000000)
-      {
-        var entityTest: Entity = new Entity("test2", i.toString)
-        println(i)
-        //  ctx.writeAndFlush(entityTest)
-        //  waitSendQueue.put(entityTest)
-      }
-
-    var after = System.currentTimeMillis()
-    println(after)*/
-
-
-
-
-
-   /* while(true)
-      {
-        println(5)
-      //  var entity = waitSendQueue.take()
-
-      }*/
-
 
 
   }
@@ -72,22 +48,6 @@ class NettyClientHandler() extends ChannelInboundHandlerAdapter{
         var e = msg.asInstanceOf[Entity]
         waitExcuteQueue.put(e)
       }
-    /*println(2)
-    var in : Entity = msg.asInstanceOf[Entity]
-    println(in.name)
-    /*var in : ByteBuf = msg.asInstanceOf[ByteBuf]
-    println("Client : " + in.toString(CharsetUtil.UTF_8))*/*/
-
-    /*println(1)
-    println(msg.asInstanceOf[Entity].name)*/
-
-  /*  println(2)
-
-    if(msg.isInstanceOf[Entity])
-    {
-      println(1)
-      waitExcuteQueue.put(msg.asInstanceOf[Entity])
-    }*/
 
 
 
