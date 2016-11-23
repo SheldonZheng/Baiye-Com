@@ -14,7 +14,7 @@ class NettyClient(val port: Int, val host:String) extends Runnable{
 
   def run() : Unit =
   {
-    var group = new NioEventLoopGroup();
+    var group = new NioEventLoopGroup()
 
     try
     {
