@@ -62,6 +62,10 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.zookeeper/zookeeper
     compile group: 'org.apache.zookeeper', name: 'zookeeper', version: '3.4.9'
 
+    // https://mvnrepository.com/artifact/org.apache.curator/curator-framework
+    compile group: 'org.apache.curator', name: 'curator-framework', version: '2.11.1'
+
+
 
 
     testCompile "junit:junit:4.11"

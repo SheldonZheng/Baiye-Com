@@ -1,31 +1,30 @@
 package com.baiye.zookeeper
 
-import org.apache.zookeeper.ZooDefs.Ids
-import org.apache.zookeeper.{CreateMode, WatchedEvent, Watcher, ZooKeeper}
+import org.apache.curator.framework.{CuratorFramework, CuratorFrameworkFactory}
+import org.apache.curator.retry.RetryNTimes
 
 /**
   * Created by Baiye on 2016/11/23.
   */
-class Test extends Watcher{
 
-  override def process(event: WatchedEvent): Unit =
-  {
-    println(event.getPath + event.getState + event.getType)
-  }
-}
-
-object Test
+class Test
 {
+
+}
+object Test {
+
   def main(args: Array[String]) {
-    var zk: ZooKeeper = new ZooKeeper("192.168.15.98:2181",600,new Test)
 
+    var client:CuratorFramework = CuratorFrameworkFactory.newClient("192.168.15.98:2181",new RetryNTimes(10,5000))
 
-    var data:Array[Byte] = "dsfafasddsfaasfd".getBytes();
+    client.start()
 
+    println("started.")
 
+    var data : String = "adsfadfdsafffff"
 
+    client.create().creatingParentsIfNeeded().forPath("/zktest",data.getBytes())
 
-    zk.create("/test1",data,Ids.OPEN_ACL_UNSAFE,CreateMode.PERSISTENT)
 
 
   }
