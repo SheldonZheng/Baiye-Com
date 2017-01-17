@@ -11,9 +11,17 @@ import java.util.Set;
  */
 public final class ClassHolder {
 
-    private Logger logger = LoggerFactory.getLogger(ClassHolder.class);
+    private static Logger logger = LoggerFactory.getLogger(ClassHolder.class);
 
-    private final Set<Class> classSet = new ConcurrentSet<>();
+    private final static Set<Class> classSet = new ConcurrentSet<>();
 
+    public static void addClass(Class cls)
+    {
+        if(cls != null)
+        {
+            logger.debug("将Class:{}添加到ClassSet中",cls);
+            classSet.add(cls);
+        }
+    }
 
 }
