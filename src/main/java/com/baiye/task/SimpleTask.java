@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -42,10 +43,11 @@ public class SimpleTask implements Runnable{
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
-            Method[] methods = cls.getMethods();
-            for (Method method : methods) {
-                if(method.isAnnotationPresent(BaiyeTaskMethod.class))
-                {
+
+            List<Method> methodList = ClassHelper.getTaskMethods(cls);
+            if(CollectionUtils.isNotEmpty(methodList))
+            {
+                for (Method method : methodList) {
                     try {
                         method.invoke(classInstance,new Object[]{});
                     } catch (IllegalAccessException e) {

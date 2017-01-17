@@ -1,12 +1,16 @@
 package com.baiye.helper;
 
 import com.baiye.annotation.BaiyeTaskClass;
+import com.baiye.annotation.BaiyeTaskMethod;
 import com.baiye.util.ClassUtil;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -31,5 +35,16 @@ public class ClassHelper {
         }
 
         return classSet;
+    }
+
+    public static List<Method> getTaskMethods(Class<?> cls)
+    {
+        List<Method> methodList = Lists.newArrayList();
+        Method[] methods = cls.getMethods();
+        for (Method method : methods) {
+            if(method.isAnnotationPresent(BaiyeTaskMethod.class))
+                methodList.add(method);
+        }
+        return methodList;
     }
 }

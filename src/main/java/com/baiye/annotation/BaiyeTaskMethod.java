@@ -6,9 +6,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by Baiye on 2017/1/17.
- */
+* Created by Baiye on 2017/1/17.
+        */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface BaiyeTaskMethod {
+
 }
