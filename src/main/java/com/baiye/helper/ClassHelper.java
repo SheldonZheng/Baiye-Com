@@ -1,7 +1,7 @@
 package com.baiye.helper;
 
-import com.baiye.annotation.BaiyeTaskClass;
-import com.baiye.annotation.BaiyeTaskMethod;
+import com.baiye.annotation.TaskClass;
+import com.baiye.annotation.TaskMethod;
 import com.baiye.util.ClassUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -30,7 +30,7 @@ public class ClassHelper {
         }
 
         for (Class<?> cls : allClassSet) {
-            if(cls.isAnnotationPresent(BaiyeTaskClass.class))
+            if(cls.isAnnotationPresent(TaskClass.class))
                 classSet.add(cls);
         }
 
@@ -42,7 +42,7 @@ public class ClassHelper {
         List<Method> methodList = Lists.newArrayList();
         Method[] methods = cls.getMethods();
         for (Method method : methods) {
-            if(method.isAnnotationPresent(BaiyeTaskMethod.class))
+            if(method.isAnnotationPresent(TaskMethod.class))
                 methodList.add(method);
         }
         return methodList;
