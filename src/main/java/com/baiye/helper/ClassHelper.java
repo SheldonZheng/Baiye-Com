@@ -1,5 +1,6 @@
 package com.baiye.helper;
 
+import com.baiye.annotation.SchedulerTask;
 import com.baiye.annotation.TaskClass;
 import com.baiye.annotation.TaskMethod;
 import com.baiye.util.ClassUtil;
@@ -42,7 +43,7 @@ public class ClassHelper {
         List<Method> methodList = Lists.newArrayList();
         Method[] methods = cls.getMethods();
         for (Method method : methods) {
-            if(method.isAnnotationPresent(TaskMethod.class))
+            if(method.isAnnotationPresent(TaskMethod.class) || method.isAnnotationPresent(SchedulerTask.class))
                 methodList.add(method);
         }
         return methodList;
