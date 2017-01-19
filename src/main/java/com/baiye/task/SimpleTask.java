@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * Created by Baiye on 2017/1/17.
  */
-public class SimpleTask implements Runnable{
+public class SimpleTask implements Task{
 
     private static final Logger logger = LoggerFactory.getLogger(SimpleTask.class);
 
