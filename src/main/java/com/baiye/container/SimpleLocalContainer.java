@@ -16,7 +16,7 @@ public class SimpleLocalContainer extends AbstractContainer{
 
     public SimpleLocalContainer(String packageName) {
         super(packageName);
-        this.executorService = new
+        //、、 this.executorService = new
     }
 
     @Override
