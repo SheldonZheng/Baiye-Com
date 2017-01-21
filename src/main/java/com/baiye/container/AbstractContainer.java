@@ -7,9 +7,11 @@ import java.util.concurrent.ExecutorService;
  */
 public abstract class AbstractContainer implements Container{
 
+    private Integer DEFAULT_THREAD_POOL_SIZE = 100;
+
     protected ExecutorService executorService;
 
-    protected Integer THREAD_POOL_SIZE;
+    protected Integer THREAD_POOL_SIZE = DEFAULT_THREAD_POOL_SIZE;
 
     protected String packageName;
 
