@@ -1,6 +1,6 @@
 package com.baiye.test;
 
-import com.baiye.test.Task.SimpleLocalContainerTest;
+import com.baiye.test.Task.SimpleTaskLocalContainerTest;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
@@ -11,7 +11,7 @@ import org.junit.runner.notification.Failure;
 public class MainTest {
 
     public static void main(String[] args) {
-        Result result = JUnitCore.runClasses(SimpleLocalContainerTest.class);
+        Result result = JUnitCore.runClasses(SimpleTaskLocalContainerTest.class);
         for (Failure failure : result.getFailures()) {
             System.out.println(failure.toString());
         }

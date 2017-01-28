@@ -10,8 +10,6 @@ public abstract class AbstractContainer implements Container{
 
     private Integer DEFAULT_THREAD_POOL_SIZE = 100;
 
-    protected ExecutorService executorService;
-
     protected Integer THREAD_POOL_SIZE = DEFAULT_THREAD_POOL_SIZE;
 
     protected String packageName;
@@ -29,9 +27,6 @@ public abstract class AbstractContainer implements Container{
         init();
     }
 
-    private void init()
-    {
-        this.executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
-    }
+    protected abstract void init();
 
 }
