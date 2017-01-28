@@ -58,17 +58,9 @@ public class SchedulerTaskLocalContainer extends AbstractContainer{
                     SchedulerTask schedulerTask = method.getAnnotation(SchedulerTask.class);
                     Task task = new SimpleTask(classInstance,method,new Object[]{});
                     executorService.scheduleAtFixedRate(task,schedulerTask.firstDelay(),schedulerTask.delay(), TimeUnit.MILLISECONDS);
-                    /*try {
-                        method.invoke(classInstance,new Object[]{});
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
-                    }*/
                 }
             }
 
         }
-        executorService.shutdown();
     }
 }
