@@ -18,7 +18,6 @@ public class SimpleLocalContainer extends AbstractContainer{
 
     public SimpleLocalContainer(String packageName) {
         super(packageName);
-        //、、 this.executorService = new
     }
 
     public SimpleLocalContainer(String packageName, Integer THREAD_POOL_SIZE) {
