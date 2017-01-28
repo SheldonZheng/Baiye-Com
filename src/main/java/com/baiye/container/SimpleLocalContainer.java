@@ -19,6 +19,10 @@ public class SimpleLocalContainer extends AbstractContainer{
         //、、 this.executorService = new
     }
 
+    public SimpleLocalContainer(String packageName, Integer THREAD_POOL_SIZE) {
+        super(packageName, THREAD_POOL_SIZE);
+    }
+
     @Override
     public void run() {
         Set<Class<?>> classSet = ClassHelper.getBaiyeTaskClassAnnotation(packageName);

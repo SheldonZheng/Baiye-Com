@@ -1,6 +1,7 @@
 package com.baiye.container;
 
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by Baiye on 2017/1/19.
@@ -18,6 +19,19 @@ public abstract class AbstractContainer implements Container{
     public AbstractContainer(String packageName)
     {
         this.packageName = packageName;
+        init();
+    }
+
+    public AbstractContainer(String packageName,Integer THREAD_POOL_SIZE)
+    {
+        this.packageName = packageName;
+        this.THREAD_POOL_SIZE = THREAD_POOL_SIZE;
+        init();
+    }
+
+    private void init()
+    {
+        this.executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
     }
 
 }
