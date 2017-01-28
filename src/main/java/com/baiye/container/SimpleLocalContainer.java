@@ -1,6 +1,8 @@
 package com.baiye.container;
 
 import com.baiye.helper.ClassHelper;
+import com.baiye.task.SimpleTask;
+import com.baiye.task.Task;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -43,17 +45,19 @@ public class SimpleLocalContainer extends AbstractContainer{
             if(CollectionUtils.isNotEmpty(methodList))
             {
                 for (Method method : methodList) {
-                    try {
+                    Task task = new SimpleTask(classInstance,method,new Object[]{});
+                    executorService.execute(task);
+                    /*try {
                         method.invoke(classInstance,new Object[]{});
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
                         e.printStackTrace();
-                    }
+                    }*/
                 }
             }
 
         }
-
+        executorService.shutdown();
     }
 }
