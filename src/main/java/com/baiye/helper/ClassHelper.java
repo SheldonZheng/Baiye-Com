@@ -38,12 +38,23 @@ public class ClassHelper {
         return classSet;
     }
 
-    public static List<Method> getTaskMethods(Class<?> cls)
+    public static List<Method> getSimpleTaskMethods(Class<?> cls)
     {
         List<Method> methodList = Lists.newArrayList();
         Method[] methods = cls.getMethods();
         for (Method method : methods) {
-            if(method.isAnnotationPresent(TaskMethod.class) || method.isAnnotationPresent(SchedulerTask.class))
+            if(method.isAnnotationPresent(TaskMethod.class))
+                methodList.add(method);
+        }
+        return methodList;
+    }
+
+    public static List<Method> getSchedulerTaskMethods(Class<?> cls)
+    {
+        List<Method> methodList = Lists.newArrayList();
+        Method[] methods = cls.getMethods();
+        for (Method method : methods) {
+            if(method.isAnnotationPresent(SchedulerTask.class))
                 methodList.add(method);
         }
         return methodList;

@@ -5,11 +5,9 @@ import com.baiye.task.SimpleTask;
 import com.baiye.task.Task;
 import org.apache.commons.collections4.CollectionUtils;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by Baiye on 2017/1/19.
@@ -40,7 +38,7 @@ public class SimpleLocalContainer extends AbstractContainer{
                 e.printStackTrace();
             }
 
-            List<Method> methodList = ClassHelper.getTaskMethods(cls);
+            List<Method> methodList = ClassHelper.getSimpleTaskMethods(cls);
             if(CollectionUtils.isNotEmpty(methodList))
             {
                 for (Method method : methodList) {
