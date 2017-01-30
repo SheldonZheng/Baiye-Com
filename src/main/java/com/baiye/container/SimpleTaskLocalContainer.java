@@ -53,13 +53,6 @@ public class SimpleTaskLocalContainer extends AbstractContainer{
                 for (Method method : methodList) {
                     Task task = new SimpleTask(classInstance,method,new Object[]{});
                     executorService.execute(task);
-                    /*try {
-                        method.invoke(classInstance,new Object[]{});
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
-                    }*/
                 }
             }
 
