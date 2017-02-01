@@ -9,10 +9,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * Created by Baiye on 28/01/2017.
@@ -57,7 +54,7 @@ public class SchedulerTaskLocalContainer extends AbstractContainer{
                 for (Method method : methodList) {
                     SchedulerTask schedulerTask = method.getAnnotation(SchedulerTask.class);
                     Task task = new SimpleTask(classInstance,method,new Object[]{});
-                    executorService.scheduleAtFixedRate(task,schedulerTask.firstDelay(),schedulerTask.delay(), TimeUnit.MILLISECONDS);
+                    ScheduledFuture scheduledFuture = executorService.scheduleAtFixedRate(task,schedulerTask.firstDelay(),schedulerTask.delay(), TimeUnit.MILLISECONDS);
                 }
             }
 
