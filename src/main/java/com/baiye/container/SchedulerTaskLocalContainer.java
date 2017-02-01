@@ -2,12 +2,14 @@ package com.baiye.container;
 
 import com.baiye.annotation.SchedulerTask;
 import com.baiye.helper.ClassHelper;
+import com.baiye.single.SingleMapEnum;
 import com.baiye.task.SimpleTask;
 import com.baiye.task.Task;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.*;
 
@@ -18,6 +20,7 @@ public class SchedulerTaskLocalContainer extends AbstractContainer{
 
     private ScheduledExecutorService executorService;
 
+    private Map<String,ScheduledFuture> scheduledFutureMap = SingleMapEnum.LocalTaskFutureSingleMap.getMap();
 
     public SchedulerTaskLocalContainer(String packageName) {
         super(packageName);
@@ -54,7 +57,10 @@ public class SchedulerTaskLocalContainer extends AbstractContainer{
                 for (Method method : methodList) {
                     SchedulerTask schedulerTask = method.getAnnotation(SchedulerTask.class);
                     Task task = new SimpleTask(classInstance,method,new Object[]{});
+                    if(scheduledFutureMap.containsKey(schedulerTask.name()))
+                        throw new RuntimeException("已存在相同名称的任务");
                     ScheduledFuture scheduledFuture = executorService.scheduleAtFixedRate(task,schedulerTask.firstDelay(),schedulerTask.delay(), TimeUnit.MILLISECONDS);
+                    scheduledFutureMap.put(schedulerTask.name(),scheduledFuture);
                 }
             }
 
