@@ -44,6 +44,8 @@ repositories {
 
 dependencies {
 
+    compile("org.springframework.boot:spring-boot-starter-web:1.5.1.RELEASE")
+
     compile group: 'org.scala-lang', name: 'scala-library', version: '2.11.8'
 
     compile group: 'org.scala-lang', name: 'scala-reflect', version: '2.11.8'
@@ -68,8 +70,6 @@ dependencies {
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
 // https://mvnrepository.com/artifact/org.apache.commons/commons-collections4
     compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
-
-
 
 
     testCompile "junit:junit:4.11"
