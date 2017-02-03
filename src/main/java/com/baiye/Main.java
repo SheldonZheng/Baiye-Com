@@ -1,21 +1,15 @@
 package com.baiye;
 
-import com.baiye.container.Container;
-import com.baiye.container.SchedulerTaskLocalContainer;
-import com.baiye.container.SimpleTaskLocalContainer;
-import com.baiye.controller.TestController;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 
 /**
  * Created by Baiye on 2017/1/17.
  */
-@ComponentScan
-@EnableAutoConfiguration
+
+@SpringBootApplication
 public class Main {
 
     public static void main(String[] args) {

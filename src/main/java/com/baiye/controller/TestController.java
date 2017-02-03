@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class TestController {
 
-    @RequestMapping("/")
+    @RequestMapping("/healthCheck")
     @ResponseBody
     public String home(){
-        return "Test";
+        return "";
     }
 }
