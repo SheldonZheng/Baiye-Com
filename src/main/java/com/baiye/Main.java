@@ -1,6 +1,7 @@
 package com.baiye;
 
 
+import com.baiye.common.helper.HttpHelper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
