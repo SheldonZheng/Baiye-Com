@@ -21,7 +21,8 @@ dependencies {
             [group: 'org.apache.curator', name: 'curator-framework', version: '2.11.1'],
             [group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'],
             [group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'],
-            [group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2']
+            [group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'],
+            [group: 'commons-io', name: 'commons-io', version: '2.5']
     )
 
 
