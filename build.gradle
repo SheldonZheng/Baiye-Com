@@ -5,7 +5,12 @@ apply plugin: 'scala'
 apply plugin: 'java'
 
 apply plugin: 'application' //可选(可自动生成shell启动脚本)
-mainClassName = 'AppDemo' //可选（与上行的application插件配套出现）
+mainClassName = 'com.baiye.Main' //可选（与上行的application插件配套出现）
+
+sourceCompatibility = 1.8
+
+
+[compileJava,compileTestJava,javadoc]*.options*.encoding = 'UTF-8'
 
 //这里是关键（把java与scala的源代码目录全映射到scala上,
 // 这样gradle compileScala时就能同时编译java与scala的源代码）
@@ -36,6 +41,10 @@ task "createDirs" << {
     sourceSets*.resources.srcDirs*.each { it.mkdirs() }
 }
 
+task listJars(description: 'Display all compile jars.') << {
+    configurations.compile.each { File file -> println file.name }
+}
+
 repositories {
     mavenLocal()
     maven { url 'http://baiye.website:8081/repository/maven-public/' }
@@ -43,6 +52,10 @@ repositories {
 }
 
 dependencies {
+
+    compile (
+            project(':CommonTools')
+    )
 
     compile("org.springframework.boot:spring-boot-starter-web:1.5.1.RELEASE")
             {
@@ -81,6 +94,6 @@ dependencies {
 //可选,如果想让生成的jar可直接运行,建议加上
 jar {
     manifest {
-        attributes 'Main-Class': 'AppDemo'
+        attributes 'Main-Class': 'com.baiye.Main'
     }
 }
