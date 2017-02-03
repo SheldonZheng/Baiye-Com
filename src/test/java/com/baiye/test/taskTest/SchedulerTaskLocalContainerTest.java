@@ -21,7 +21,7 @@ public class SchedulerTaskLocalContainerTest {
     @SchedulerTask(name = "test1",firstDelay = 1000,delay = 1000)
     public void test()
     {
-        System.out.println("SchedulerTaskLocalContainer testPackage success!");
+        System.out.println("SchedulerTaskLocalContainer test success!");
     }
 
     @Test

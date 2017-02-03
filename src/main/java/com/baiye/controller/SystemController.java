@@ -14,6 +14,6 @@ public class SystemController {
     @RequestMapping("/healthCheck")
     @ResponseBody
     public String healthCheck(){
-        return "";
+        return "ok";
     }
 }

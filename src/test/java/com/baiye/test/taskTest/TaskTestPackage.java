@@ -18,11 +18,5 @@ public class TaskTestPackage implements TestPackage{
     {
         ClassTestHelper.testClass(SimpleTaskLocalContainerTest.class);
         ClassTestHelper.testClass(SchedulerTaskLocalContainerTest.class);
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.exit(0);
     }
 }

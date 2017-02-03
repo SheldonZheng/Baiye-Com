@@ -18,7 +18,7 @@ public class SimpleTaskLocalContainerTest {
     @TaskMethod
     public void test()
     {
-        System.out.println("SimpleTaskLocalContainer testPackage success!");
+        System.out.println("SimpleTaskLocalContainer test success!");
     }
 
 

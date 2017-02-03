@@ -12,7 +12,6 @@ import org.springframework.boot.SpringApplication;
 public class WebTestPackage implements TestPackage{
 
     public static void main(String[] args) {
-        Main.main(args);
         TestPackage testPackage = new WebTestPackage();
         testPackage.runTests();
         System.exit(0);
@@ -21,6 +20,7 @@ public class WebTestPackage implements TestPackage{
 
     @Override
     public void runTests() {
+        Main.main(new String[]{});
         ClassTestHelper.testClass(InterfaceTest.class);
     }
 }
