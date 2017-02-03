@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 
 @Controller
-@EnableAutoConfiguration
 public class TestController {
 
     @RequestMapping("/")
