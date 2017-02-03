@@ -12,38 +12,18 @@ repositories {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web:1.5.1.RELEASE")
-        {
-            exclude module : 'spring-boot-starter-logging'
-        }
 
-    compile group: 'org.scala-lang', name: 'scala-library', version: '2.11.8'
+    compile(
+            [group: 'io.netty', name: 'netty-all', version: '4.1.5.Final'],
+            [group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'],
+            [group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.21'],
+            [group: 'org.apache.zookeeper', name: 'zookeeper', version: '3.4.9'],
+            [group: 'org.apache.curator', name: 'curator-framework', version: '2.11.1'],
+            [group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'],
+            [group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'],
+            [group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2']
+    )
 
-    compile group: 'org.scala-lang', name: 'scala-reflect', version: '2.11.8'
-
-    compile group: 'io.netty', name: 'netty-all', version: '4.1.5.Final'
-
-    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
-
-    // https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12
-    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.21'
-
-    // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
-    //compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.6.2'
-
-    // https://mvnrepository.com/artifact/org.apache.zookeeper/zookeeper
-    compile group: 'org.apache.zookeeper', name: 'zookeeper', version: '3.4.9'
-
-    // https://mvnrepository.com/artifact/org.apache.curator/curator-framework
-    compile group: 'org.apache.curator', name: 'curator-framework', version: '2.11.1'
-// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
-// https://mvnrepository.com/artifact/org.apache.commons/commons-collections4
-    compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
-
-    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
-    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
 
     testCompile "junit:junit:4.11"
 }

@@ -1,7 +1,6 @@
 group 'website.baiye'
 version '1.0'
 
-apply plugin: 'scala'
 apply plugin: 'java'
 
 apply plugin: 'application' //可选(可自动生成shell启动脚本)
@@ -16,21 +15,17 @@ sourceCompatibility = 1.8
 // 这样gradle compileScala时就能同时编译java与scala的源代码）
 sourceSets {
     main {
-        scala {
-            srcDirs = ['src/main/scala', 'src/main/java']
-        }
         java {
-            srcDirs = []
+            srcDirs = ['src/main/java']
         }
+
     }
 
     test {
-        scala {
-            srcDirs = ['src/test/scala', 'src/test/java']
-        }
         java {
-            srcDirs = []
+            srcDirs = ['src/test/java']
         }
+
     }
 }
 
@@ -56,6 +51,12 @@ dependencies {
     compile (
             project(':CommonTools')
     )
+
+    compile("org.springframework.boot:spring-boot-starter-web:1.5.1.RELEASE")
+            {
+                exclude module : 'spring-boot-starter-logging'
+            }
+
 }
 
 //可选,如果想让生成的jar可直接运行,建议加上
