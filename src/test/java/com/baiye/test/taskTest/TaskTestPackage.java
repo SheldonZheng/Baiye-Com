@@ -5,7 +5,7 @@ import com.baiye.test.helper.ClassTestHelper;
 /**
  * Created by Baiye on 2017/2/3.
  */
-public class TestPackage {
+public class TaskTestPackage {
 
     public static void main(String[] args) {
         testPackage();

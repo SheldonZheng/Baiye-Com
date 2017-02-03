@@ -57,6 +57,9 @@ dependencies {
                 exclude module : 'spring-boot-starter-logging'
             }
 
+    testCompile "junit:junit:4.11"
+
+
 }
 
 //可选,如果想让生成的jar可直接运行,建议加上

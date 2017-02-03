@@ -45,10 +45,10 @@ public class HttpHelper {
         String result = null;
         HttpClient httpclient = HttpClients.createDefault();
         try {
-            HttpGet httpPost = new HttpGet(apiUrl);
+            HttpGet httpGet = new HttpGet(apiUrl);
             logger.info("远程调用开始,url:{}", apiUrl);
             long start = System.currentTimeMillis();
-            HttpResponse response = httpclient.execute(httpPost);
+            HttpResponse response = httpclient.execute(httpGet);
             int statusCode = response.getStatusLine().getStatusCode();
             logger.info("执行状态码 :{} ", statusCode);
             HttpEntity entity = response.getEntity();
