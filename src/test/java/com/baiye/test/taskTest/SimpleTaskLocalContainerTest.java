@@ -1,4 +1,4 @@
-package com.baiye.test.Task;
+package com.baiye.test.taskTest;
 
 import com.baiye.annotation.TaskClass;
 import com.baiye.annotation.TaskMethod;
@@ -18,7 +18,7 @@ public class SimpleTaskLocalContainerTest {
     @TaskMethod
     public void test()
     {
-        System.out.println("SimpleTaskLocalContainer test success!");
+        System.out.println("SimpleTaskLocalContainer testPackage success!");
     }
 
 
@@ -26,7 +26,7 @@ public class SimpleTaskLocalContainerTest {
     public void simpleTaskTest()
     {
         ExecutorService executorService  = Executors.newFixedThreadPool(4);
-        Container container = new SimpleTaskLocalContainer("com.baiye.test.Task");
+        Container container = new SimpleTaskLocalContainer("com.baiye.test.taskTest");
         executorService.execute(container);
         executorService.shutdown();
     }

@@ -14,9 +14,9 @@ public class Main {
 
     public static void main(String[] args) {
         ExecutorService executorService  = Executors.newFixedThreadPool(4);
-        Container container = new SchedulerTaskLocalContainer("com.baiye.test.Task");
+        Container container = new SchedulerTaskLocalContainer("com.baiye.testPackage.Task");
         executorService.execute(container);
-        container = new SimpleTaskLocalContainer("com.baiye.test.Task");
+        container = new SimpleTaskLocalContainer("com.baiye.testPackage.Task");
         executorService.execute(container);
         executorService.shutdown();
     }

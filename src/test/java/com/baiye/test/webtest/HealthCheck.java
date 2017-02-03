@@ -1,4 +1,4 @@
-package com.baiye.test.webtest;
+package com.baiye.test.webTest;
 
 /**
  * Created by Baiye on 2017/2/3.

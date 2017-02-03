@@ -1,11 +1,9 @@
-package com.baiye.test.Task;
+package com.baiye.test.taskTest;
 
 import com.baiye.annotation.SchedulerTask;
 import com.baiye.annotation.TaskClass;
-import com.baiye.annotation.TaskMethod;
 import com.baiye.container.Container;
 import com.baiye.container.SchedulerTaskLocalContainer;
-import com.baiye.container.SimpleTaskLocalContainer;
 import com.baiye.single.SingleMapEnum;
 import org.junit.Test;
 
@@ -23,14 +21,14 @@ public class SchedulerTaskLocalContainerTest {
     @SchedulerTask(name = "test1",firstDelay = 1000,delay = 1000)
     public void test()
     {
-        System.out.println("SchedulerTaskLocalContainer test success!");
+        System.out.println("SchedulerTaskLocalContainer testPackage success!");
     }
 
     @Test
     public void schedulerTaskTest()
     {
         ExecutorService executorService  = Executors.newFixedThreadPool(4);
-        Container container = new SchedulerTaskLocalContainer("com.baiye.test.Task");
+        Container container = new SchedulerTaskLocalContainer("com.baiye.test.taskTest");
         executorService.execute(container);
         executorService.shutdown();
 

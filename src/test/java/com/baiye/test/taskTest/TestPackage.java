@@ -1,15 +1,18 @@
-package com.baiye.test;
+package com.baiye.test.taskTest;
 
-import com.baiye.test.taskTest.SchedulerTaskLocalContainerTest;
-import com.baiye.test.taskTest.SimpleTaskLocalContainerTest;
 import com.baiye.test.helper.ClassTestHelper;
 
 /**
- * Created by Baiye on 2017/1/19.
+ * Created by Baiye on 2017/2/3.
  */
-public class MainTest {
+public class TestPackage {
 
     public static void main(String[] args) {
+        testPackage();
+    }
+
+    public static void testPackage()
+    {
         ClassTestHelper.testClass(SimpleTaskLocalContainerTest.class);
         ClassTestHelper.testClass(SchedulerTaskLocalContainerTest.class);
         try {
@@ -19,7 +22,4 @@ public class MainTest {
         }
         System.exit(0);
     }
-
-
-
 }
