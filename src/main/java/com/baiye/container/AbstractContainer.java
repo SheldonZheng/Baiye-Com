@@ -2,6 +2,7 @@ package com.baiye.container;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * Created by Baiye on 2017/1/19.
@@ -13,6 +14,9 @@ public abstract class AbstractContainer implements Container{
     protected Integer THREAD_POOL_SIZE = DEFAULT_THREAD_POOL_SIZE;
 
     protected String packageName;
+
+    protected ScheduledExecutorService executorService;
+
 
     public AbstractContainer(String packageName)
     {

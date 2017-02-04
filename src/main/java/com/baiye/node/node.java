@@ -5,6 +5,9 @@ package com.baiye.node;
  */
 public interface Node {
 
+
+    public void init();
+
     public void join();
 
     public void exit();

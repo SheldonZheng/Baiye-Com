@@ -12,6 +12,11 @@ import java.util.function.BiConsumer;
 public class SimpleLocalNode implements Node{
 
     @Override
+    public void init() {
+
+    }
+
+    @Override
     public void join() {
         //TODO
     }

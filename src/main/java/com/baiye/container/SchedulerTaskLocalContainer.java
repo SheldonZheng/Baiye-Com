@@ -1,6 +1,7 @@
 package com.baiye.container;
 
 import com.baiye.annotation.SchedulerTask;
+import com.baiye.exception.BaiyeTaskException;
 import com.baiye.helper.ClassHelper;
 import com.baiye.single.SingleMapEnum;
 import com.baiye.task.SimpleTask;
@@ -18,7 +19,6 @@ import java.util.concurrent.*;
  */
 public class SchedulerTaskLocalContainer extends AbstractContainer{
 
-    private ScheduledExecutorService executorService;
 
     private Map<String,ScheduledFuture> scheduledFutureMap = SingleMapEnum.LocalTaskFutureSingleMap.getMap();
 
@@ -37,6 +37,26 @@ public class SchedulerTaskLocalContainer extends AbstractContainer{
 
     @Override
     public void run() {
+        scanTasks();
+        /*for (Map.Entry<String, ScheduledFuture> entry : scheduledFutureMap.entrySet()) {
+            System.out.println(entry.getKey());
+            System.out.println(entry.getValue());
+            try {
+                Thread.sleep(5000);
+              //  entry.getValue().cancel(false);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }*/
+    }
+
+    public void scanTasks(String packageName)
+    {
+
+    }
+
+    public void scanTasks()
+    {
         Set<Class<?>> classSet = ClassHelper.getBaiyeTaskClassAnnotation(packageName);
         if(CollectionUtils.isEmpty(classSet))
             return;
@@ -58,22 +78,12 @@ public class SchedulerTaskLocalContainer extends AbstractContainer{
                     SchedulerTask schedulerTask = method.getAnnotation(SchedulerTask.class);
                     Task task = new SimpleTask(classInstance,method,new Object[]{});
                     if(scheduledFutureMap.containsKey(schedulerTask.name()))
-                        throw new RuntimeException("已存在相同名称的任务");
+                        throw new BaiyeTaskException("已存在相同名称的任务");
                     ScheduledFuture scheduledFuture = executorService.scheduleAtFixedRate(task,schedulerTask.firstDelay(),schedulerTask.delay(), TimeUnit.MILLISECONDS);
                     scheduledFutureMap.put(schedulerTask.name(),scheduledFuture);
                 }
             }
 
         }
-        /*for (Map.Entry<String, ScheduledFuture> entry : scheduledFutureMap.entrySet()) {
-            System.out.println(entry.getKey());
-            System.out.println(entry.getValue());
-            try {
-                Thread.sleep(5000);
-              //  entry.getValue().cancel(false);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }*/
     }
 }
