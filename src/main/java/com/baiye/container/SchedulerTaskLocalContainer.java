@@ -39,16 +39,6 @@ public class SchedulerTaskLocalContainer extends AbstractContainer{
     @Override
     public void run() {
         runTasks();
-        /*for (Map.Entry<String, ScheduledFuture> entry : scheduledFutureMap.entrySet()) {
-            System.out.println(entry.getKey());
-            System.out.println(entry.getValue());
-            try {
-                Thread.sleep(5000);
-              //  entry.getValue().cancel(false);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }*/
     }
 
     public void runTasks(String packageName)
