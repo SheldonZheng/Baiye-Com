@@ -57,11 +57,28 @@ public class ClassUtil {
         return classSet;
     }
 
-    public static Set<Class<?>> getClassSet(String packageName,ClassLoader classLoader)
+    public static Set<Class<?>> getClassSet(String packageName,ClassLoader classLoader,String jarFilePath)
     {
         Set<Class<?>> classSet = new HashSet<Class<?>>();
 
         try {
+            JarFile jarFile = new JarFile(jarFilePath);
+            if(jarFile != null)
+            {
+                Enumeration<JarEntry> entries = jarFile.entries();
+                while(entries.hasMoreElements())
+                {
+                    String jarEntryName = entries.nextElement().getName();
+                    if(StringUtils.isNotBlank(jarEntryName) && jarEntryName.endsWith(".class"))
+                    {
+                        String clsName = getClassName(jarEntryName);
+                        Class cls = classLoader.loadClass(clsName);
+                        if(cls != null)
+                            classSet.add(cls);
+                    }
+                }
+            }
+            /*System.out.println(classLoader.getResource(""));
             Enumeration<URL> urls = classLoader.getResources(packageName.replace(".","/"));
             while(urls.hasMoreElements())
             {
@@ -78,8 +95,11 @@ public class ClassUtil {
                         readJarFile(classSet,url);
                     }
                 }
-            }
+            }*/
         } catch (IOException e) {
+            logger.error("get class set failure{}",e);
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             logger.error("get class set failure{}",e);
             throw new RuntimeException(e);
         }
@@ -160,4 +180,10 @@ public class ClassUtil {
         }
     }
 
+    private static String getClassName(String jarEntryName) {
+        if (jarEntryName.endsWith(".class")) {
+            return jarEntryName.replace("/", ".").substring(0, jarEntryName.lastIndexOf("."));
+        }
+        return null;
+    }
 }

@@ -57,6 +57,8 @@ dependencies {
                 exclude module : 'spring-boot-starter-logging'
             }
 
+    compile group: 'junit', name: 'junit', version: '4.11'
+
     testCompile "junit:junit:4.11"
 
 

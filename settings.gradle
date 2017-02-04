@@ -1,3 +1,4 @@
 include 'CommonTools'
 include 'Baiye-Task-Core'
+include 'Compile-Test'
 

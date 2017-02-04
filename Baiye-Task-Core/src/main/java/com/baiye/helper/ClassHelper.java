@@ -3,6 +3,7 @@ package com.baiye.helper;
 import com.baiye.annotation.SchedulerTask;
 import com.baiye.annotation.TaskClass;
 import com.baiye.annotation.TaskMethod;
+import com.baiye.classloader.BaiyeClassLoader;
 import com.baiye.util.ClassUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -59,10 +60,11 @@ public class ClassHelper {
 
     public static Set<Class<?>> getBaiyeTaskClassAnnotation(String packageName,String jarFilePath) throws MalformedURLException {
         File file = new File(jarFilePath);
-        URL[] urls = new URL[1];
-        urls[0] = file.toURI().toURL();
-        ClassLoader classLoader = new URLClassLoader(urls);
-        Set<Class<?>> allClassSet = ClassUtil.getClassSet(packageName,classLoader);
+
+        URL url = file.toURI().toURL();
+        BaiyeClassLoader classLoader = new BaiyeClassLoader(new URL[]{url});
+        classLoader.addURL(url);
+        Set<Class<?>> allClassSet = ClassUtil.getClassSet(packageName,classLoader,jarFilePath);
         Set<Class<?>> classSet = Sets.newHashSet();
         if(CollectionUtils.isEmpty(allClassSet))
         {
