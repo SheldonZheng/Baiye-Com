@@ -11,6 +11,12 @@ public class TaskTestPackage implements TestPackage{
     public static void main(String[] args) {
         TestPackage testPackage = new TaskTestPackage();
         testPackage.runTests();
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.exit(0);
     }
 
     @Override

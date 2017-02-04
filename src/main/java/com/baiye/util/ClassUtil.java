@@ -45,25 +45,7 @@ public class ClassUtil {
                     }
                     else if (protocol.equals("jar"))
                     {
-                        JarURLConnection jarURLConnection = (JarURLConnection) url.openConnection();
-                        if(jarURLConnection != null)
-                        {
-                            JarFile jarFile = jarURLConnection.getJarFile();
-                            if(jarFile != null)
-                            {
-                                Enumeration<JarEntry> jarEntries = jarFile.entries();
-                                while(jarEntries.hasMoreElements())
-                                {
-                                    JarEntry jarEntry = jarEntries.nextElement();
-                                    String jarEntryName = jarEntry.getName();
-                                    if(jarEntryName.endsWith(".class"))
-                                    {
-                                        String className = jarEntryName.substring(0,jarEntryName.lastIndexOf(".")).replaceAll("/",".");
-                                        doAddClass(classSet,className);
-                                    }
-                                }
-                            }
-                        }
+                        readJarFile(classSet,url);
                     }
                 }
             }
@@ -124,6 +106,28 @@ public class ClassUtil {
     {
         Class<?> cls = loadClass(className,false);
         classSet.add(cls);
+    }
+
+    private static void readJarFile(Set<Class<?>> classSet,URL url) throws IOException {
+        JarURLConnection jarURLConnection = (JarURLConnection) url.openConnection();
+        if(jarURLConnection != null)
+        {
+            JarFile jarFile = jarURLConnection.getJarFile();
+            if(jarFile != null)
+            {
+                Enumeration<JarEntry> jarEntries = jarFile.entries();
+                while(jarEntries.hasMoreElements())
+                {
+                    JarEntry jarEntry = jarEntries.nextElement();
+                    String jarEntryName = jarEntry.getName();
+                    if(jarEntryName.endsWith(".class"))
+                    {
+                        String className = jarEntryName.substring(0,jarEntryName.lastIndexOf(".")).replaceAll("/",".");
+                        doAddClass(classSet,className);
+                    }
+                }
+            }
+        }
     }
 
 }
