@@ -9,6 +9,7 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.net.JarURLConnection;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
@@ -50,7 +51,7 @@ public class ClassUtil {
                 }
             }
         } catch (IOException e) {
-            logger.error("get class set failure",e);
+            logger.error("get class set failure{}",e);
             throw new RuntimeException(e);
         }
         return classSet;
@@ -63,7 +64,7 @@ public class ClassUtil {
             //  System.out.println(className);
             cls = Class.forName(className,isInitialized,getClassLoader());
         } catch (ClassNotFoundException e) {
-            logger.error("load class failure",e);
+            logger.error("load class failure{}",e);
             throw new RuntimeException(e);
         }
 
