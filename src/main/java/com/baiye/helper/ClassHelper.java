@@ -11,7 +11,11 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -43,6 +47,26 @@ public class ClassHelper {
         if(CollectionUtils.isEmpty(allClassSet))
         {
             logger.error("未获取到ClassSet,packageName:{}",packageName);
+            return null;
+        }
+
+        allClassSet.stream()
+                .filter(cls -> cls.isAnnotationPresent(TaskClass.class))
+                .forEach(cls -> classSet.add(cls));
+
+        return classSet;
+    }
+
+    public static Set<Class<?>> getBaiyeTaskClassAnnotation(String packageName,String jarFilePath) throws MalformedURLException {
+        File file = new File(jarFilePath);
+        URL[] urls = new URL[1];
+        urls[0] = file.toURI().toURL();
+        ClassLoader classLoader = new URLClassLoader(urls);
+        Set<Class<?>> allClassSet = ClassUtil.getClassSet(packageName,classLoader);
+        Set<Class<?>> classSet = Sets.newHashSet();
+        if(CollectionUtils.isEmpty(allClassSet))
+        {
+            logger.error("未获取到ClassSet,packageName:{},jarFilePath:{}",packageName,jarFilePath);
             return null;
         }
 
@@ -93,10 +117,56 @@ public class ClassHelper {
         return result;
     }
 
+    public static Map<Class,List<Method>> getSimpleTaskMethodsAndClass(String packageName,String jarFilePath)
+    {
+        Map<Class,List<Method>> result = Maps.newConcurrentMap();
+        Set<Class<?>> classSet = null;
+        try {
+            classSet = getBaiyeTaskClassAnnotation(packageName,jarFilePath);
+        } catch (MalformedURLException e) {
+            logger.error("file to url error!{}",e);
+        }
+        if(CollectionUtils.isNotEmpty(classSet))
+        {
+            classSet.forEach(cls ->
+            {
+                List<Method> methods = getSimpleTaskMethods(cls);
+                if(CollectionUtils.isNotEmpty(methods))
+                {
+                    result.put(cls,methods);
+                }
+            });
+        }
+        return result;
+    }
+
     public static Map<Class,List<Method>> getSchedulerTaskMethodsAndClass(String packageName)
     {
         Map<Class,List<Method>> result = Maps.newConcurrentMap();
         Set<Class<?>> classSet = getBaiyeTaskClassAnnotation(packageName);
+        if(CollectionUtils.isNotEmpty(classSet))
+        {
+            classSet.forEach(cls ->
+            {
+                List<Method> methods = getSchedulerTaskMethods(cls);
+                if(CollectionUtils.isNotEmpty(methods))
+                {
+                    result.put(cls,methods);
+                }
+            });
+        }
+        return result;
+    }
+
+    public static Map<Class,List<Method>> getSchedulerTaskMethodsAndClass(String packageName,String jarFilePath)
+    {
+        Map<Class,List<Method>> result = Maps.newConcurrentMap();
+        Set<Class<?>> classSet = null;
+        try {
+            classSet = getBaiyeTaskClassAnnotation(packageName,jarFilePath);
+        } catch (MalformedURLException e) {
+            logger.error("file to url error!{}",e);
+        }
         if(CollectionUtils.isNotEmpty(classSet))
         {
             classSet.forEach(cls ->

@@ -57,6 +57,35 @@ public class ClassUtil {
         return classSet;
     }
 
+    public static Set<Class<?>> getClassSet(String packageName,ClassLoader classLoader)
+    {
+        Set<Class<?>> classSet = new HashSet<Class<?>>();
+
+        try {
+            Enumeration<URL> urls = classLoader.getResources(packageName.replace(".","/"));
+            while(urls.hasMoreElements())
+            {
+                URL url = urls.nextElement();
+                if(url != null) {
+                    String protocol = url.getProtocol();
+                    if (protocol.equals("file"))
+                    {
+                        String packagePath = url.getPath().replaceAll("%20","");
+                        addClass(classSet,packagePath,packageName);
+                    }
+                    else if (protocol.equals("jar"))
+                    {
+                        readJarFile(classSet,url);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            logger.error("get class set failure{}",e);
+            throw new RuntimeException(e);
+        }
+        return classSet;
+    }
+
     public static Class<?> loadClass(String className,boolean isInitialized)
     {
         Class<?> cls = null;

@@ -28,7 +28,7 @@ public class SchedulerTaskLocalContainer extends AbstractContainer{
         super();
     }
 
-    public SchedulerTaskLocalContainer(String packageName, Integer THREAD_POOL_SIZE) {
+    public SchedulerTaskLocalContainer(Integer THREAD_POOL_SIZE) {
         super(THREAD_POOL_SIZE);
     }
 
@@ -43,20 +43,35 @@ public class SchedulerTaskLocalContainer extends AbstractContainer{
         Map<Class,List<Method>> tasks = ClassHelper.getSchedulerTaskMethodsAndClass(packageName);
         if(MapUtils.isNotEmpty(tasks))
         {
-            tasks.forEach( (key,value) ->
-            {
-                if(CollectionUtils.isNotEmpty(value))
-                {
-                    value.forEach( method -> {
-                        SchedulerTask schedulerTask = method.getAnnotation(SchedulerTask.class);
-                        Task task = new SimpleTask(ClassHelper.newInstance(key),method,new Object[]{});
-                        if(scheduledFutureMap.containsKey(schedulerTask.name()))
-                            throw new BaiyeTaskException("已存在相同名称的任务");
-                        ScheduledFuture scheduledFuture = executorService.scheduleAtFixedRate(task,schedulerTask.firstDelay(),schedulerTask.delay(), TimeUnit.MILLISECONDS);
-                        scheduledFutureMap.put(schedulerTask.name(),scheduledFuture);
-                    });
-                }
-            });
+            doRunTasks(tasks);
         }
+    }
+
+    @Override
+    public void addTasks(String packageName, String jarFilePath) {
+        Map<Class,List<Method>> tasks = ClassHelper.getSchedulerTaskMethodsAndClass(packageName,jarFilePath);
+        if(MapUtils.isNotEmpty(tasks))
+        {
+            doRunTasks(tasks);
+        }
+    }
+
+
+    private void doRunTasks(Map<Class,List<Method>> tasks)
+    {
+        tasks.forEach( (key,value) ->
+        {
+            if(CollectionUtils.isNotEmpty(value))
+            {
+                value.forEach( method -> {
+                    SchedulerTask schedulerTask = method.getAnnotation(SchedulerTask.class);
+                    Task task = new SimpleTask(ClassHelper.newInstance(key),method,new Object[]{});
+                    if(scheduledFutureMap.containsKey(schedulerTask.name()))
+                        throw new BaiyeTaskException("已存在相同名称的任务");
+                    ScheduledFuture scheduledFuture = executorService.scheduleAtFixedRate(task,schedulerTask.firstDelay(),schedulerTask.delay(), TimeUnit.MILLISECONDS);
+                    scheduledFutureMap.put(schedulerTask.name(),scheduledFuture);
+                });
+            }
+        });
     }
 }

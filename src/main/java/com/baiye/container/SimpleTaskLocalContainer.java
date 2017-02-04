@@ -36,20 +36,33 @@ public class SimpleTaskLocalContainer extends AbstractContainer{
     @Override
     public void addTasks(String packageName)
     {
-            Map<Class,List<Method>> tasks = ClassHelper.getSchedulerTaskMethodsAndClass(packageName);
+            Map<Class,List<Method>> tasks = ClassHelper.getSimpleTaskMethodsAndClass(packageName);
             if(MapUtils.isNotEmpty(tasks))
             {
-                tasks.forEach( (key,value) -> {
-                    if(CollectionUtils.isNotEmpty(value))
-                    {
-                        value.forEach(method -> {
-                            Task task = new SimpleTask(ClassHelper.newInstance(key),method,new Object[]{});
-                            executorService.execute(task);
-                        });
-                    }
-                });
+                doRunTasks(tasks);
             }
 
     }
 
+    @Override
+    public void addTasks(String packageName, String jarFilePath) {
+        Map<Class,List<Method>> tasks = ClassHelper.getSimpleTaskMethodsAndClass(packageName,jarFilePath);
+        if(MapUtils.isNotEmpty(tasks))
+        {
+            doRunTasks(tasks);
+        }
+    }
+
+    private void doRunTasks(Map<Class,List<Method>> tasks)
+    {
+        tasks.forEach( (key,value) -> {
+            if(CollectionUtils.isNotEmpty(value))
+            {
+                value.forEach(method -> {
+                    Task task = new SimpleTask(ClassHelper.newInstance(key),method,new Object[]{});
+                    executorService.execute(task);
+                });
+            }
+        });
+    }
 }
