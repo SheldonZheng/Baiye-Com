@@ -46,10 +46,9 @@ public class ClassHelper {
             return null;
         }
 
-        for (Class<?> cls : allClassSet) {
-            if(cls.isAnnotationPresent(TaskClass.class))
-                classSet.add(cls);
-        }
+        allClassSet.stream()
+                .filter(cls -> cls.isAnnotationPresent(TaskClass.class))
+                .forEach(cls -> classSet.add(cls));
 
         return classSet;
     }
