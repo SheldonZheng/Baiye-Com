@@ -8,6 +8,7 @@ import com.baiye.task.SimpleTask;
 import com.baiye.task.Task;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.concurrent.*;
 /**
  * Created by Baiye on 28/01/2017.
  */
+@Component
 public class SchedulerTaskLocalContainer extends AbstractContainer{
 
 
