@@ -5,6 +5,7 @@ import com.baiye.annotation.TaskClass;
 import com.baiye.annotation.TaskMethod;
 import com.baiye.util.ClassUtil;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -20,6 +22,20 @@ import java.util.Set;
 public class ClassHelper {
 
     private static final Logger logger = LoggerFactory.getLogger(ClassHelper.class);
+
+    public static Object newInstance(Class cls)
+    {
+        Object classInstance = null;
+        try {
+            classInstance = cls.newInstance();
+        } catch (InstantiationException e) {
+            logger.error("class new instance error!{}",e);
+        } catch (IllegalAccessException e) {
+            logger.error("class new instance error!{}",e);
+        }
+        return classInstance;
+    }
+
     public static Set<Class<?>> getBaiyeTaskClassAnnotation(String packageName)
     {
         Set<Class<?>> allClassSet = ClassUtil.getClassSet(packageName);
@@ -59,4 +75,23 @@ public class ClassHelper {
         }
         return methodList;
     }
+
+    public static Map<Class,List<Method>> getSchedulerTaskMethodsAndClass(String packageName)
+    {
+        Map<Class,List<Method>> result = Maps.newConcurrentMap();
+        Set<Class<?>> classSet = getBaiyeTaskClassAnnotation(packageName);
+        if(CollectionUtils.isNotEmpty(classSet))
+        {
+            classSet.forEach(cls ->
+            {
+                List<Method> methods = getSchedulerTaskMethods(cls);
+                if(CollectionUtils.isNotEmpty(methods))
+                {
+                    result.put(cls,methods);
+                }
+            });
+        }
+        return result;
+    }
+
 }
