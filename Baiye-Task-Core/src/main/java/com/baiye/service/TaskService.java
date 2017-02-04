@@ -5,5 +5,5 @@ package com.baiye.service;
  */
 public interface TaskService {
 
-    void addTask(String jarFilePath,String packageName);
+    void addTask(String jarFilePath, String packageName);
 }

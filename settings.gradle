@@ -1,4 +1,3 @@
 include 'CommonTools'
-include 'Console'
-include 'Console'
+include 'Baiye-Task-Core'
 
