@@ -1,15 +1,17 @@
 package com.baiye.container;
 
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
+
 import com.baiye.helper.ClassHelper;
 import com.baiye.task.SimpleTask;
 import com.baiye.task.Task;
-import org.apache.commons.collections4.CollectionUtils;
-
-import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Created by Baiye on 2017/1/19.
@@ -18,12 +20,12 @@ public class SimpleTaskLocalContainer extends AbstractContainer{
 
     private ExecutorService executorService;
 
-    public SimpleTaskLocalContainer(String packageName) {
-        super(packageName);
+    public SimpleTaskLocalContainer() {
+        super();
     }
 
-    public SimpleTaskLocalContainer(String packageName, Integer THREAD_POOL_SIZE) {
-        super(packageName, THREAD_POOL_SIZE);
+    public SimpleTaskLocalContainer(Integer THREAD_POOL_SIZE) {
+        super(THREAD_POOL_SIZE);
     }
 
     @Override
@@ -32,30 +34,22 @@ public class SimpleTaskLocalContainer extends AbstractContainer{
     }
 
     @Override
-    public void run() {
-        Set<Class<?>> classSet = ClassHelper.getBaiyeTaskClassAnnotation(packageName);
-        if(CollectionUtils.isEmpty(classSet))
-            return;
-
-        for (Class<?> cls : classSet) {
-            Object classInstance = null;
-            try {
-                classInstance = cls.newInstance();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-
-            List<Method> methodList = ClassHelper.getSimpleTaskMethods(cls);
-            if(CollectionUtils.isNotEmpty(methodList))
+    public void addTasks(String packageName)
+    {
+            Map<Class,List<Method>> tasks = ClassHelper.getSchedulerTaskMethodsAndClass(packageName);
+            if(MapUtils.isNotEmpty(tasks))
             {
-                for (Method method : methodList) {
-                    Task task = new SimpleTask(classInstance,method,new Object[]{});
-                    executorService.execute(task);
-                }
+                tasks.forEach( (key,value) -> {
+                    if(CollectionUtils.isNotEmpty(value))
+                    {
+                        value.forEach(method -> {
+                            Task task = new SimpleTask(ClassHelper.newInstance(key),method,new Object[]{});
+                            executorService.execute(task);
+                        });
+                    }
+                });
             }
 
-        }
     }
+
 }

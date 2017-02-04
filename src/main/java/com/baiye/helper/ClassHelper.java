@@ -75,6 +75,24 @@ public class ClassHelper {
         return methodList;
     }
 
+    public static Map<Class,List<Method>> getSimpleTaskMethodsAndClass(String packageName)
+    {
+        Map<Class,List<Method>> result = Maps.newConcurrentMap();
+        Set<Class<?>> classSet = getBaiyeTaskClassAnnotation(packageName);
+        if(CollectionUtils.isNotEmpty(classSet))
+        {
+            classSet.forEach(cls ->
+            {
+                List<Method> methods = getSimpleTaskMethods(cls);
+                if(CollectionUtils.isNotEmpty(methods))
+                {
+                    result.put(cls,methods);
+                }
+            });
+        }
+        return result;
+    }
+
     public static Map<Class,List<Method>> getSchedulerTaskMethodsAndClass(String packageName)
     {
         Map<Class,List<Method>> result = Maps.newConcurrentMap();

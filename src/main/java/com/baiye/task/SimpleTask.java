@@ -1,5 +1,8 @@
 package com.baiye.task;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -7,6 +10,8 @@ import java.lang.reflect.Method;
  * Created by Baiye on 28/01/2017.
  */
 public class SimpleTask implements Task{
+
+    private static final Logger logger = LoggerFactory.getLogger(SimpleTask.class);
 
     private Object classInstance;
 
@@ -28,9 +33,9 @@ public class SimpleTask implements Task{
             try {
                 method.invoke(classInstance,params);
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                logger.error("run simple task error!{}",e);
             } catch (InvocationTargetException e) {
-                e.printStackTrace();
+                logger.error("run simple task error!{}",e);
             }
         }
     }

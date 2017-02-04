@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.*;
 
 /**
@@ -25,12 +24,12 @@ public class SchedulerTaskLocalContainer extends AbstractContainer{
 
     private Map<String,ScheduledFuture> scheduledFutureMap = SingleMapEnum.LocalTaskFutureSingleMap.getMap();
 
-    public SchedulerTaskLocalContainer(String packageName) {
-        super(packageName);
+    public SchedulerTaskLocalContainer() {
+        super();
     }
 
     public SchedulerTaskLocalContainer(String packageName, Integer THREAD_POOL_SIZE) {
-        super(packageName, THREAD_POOL_SIZE);
+        super(THREAD_POOL_SIZE);
     }
 
     @Override
@@ -39,16 +38,7 @@ public class SchedulerTaskLocalContainer extends AbstractContainer{
     }
 
     @Override
-    public void run() {
-        runTasks();
-    }
-
-    public void runTasks(String packageName)
-    {
-
-    }
-
-    public void runTasks()
+    public void addTasks(String packageName)
     {
         Map<Class,List<Method>> tasks = ClassHelper.getSchedulerTaskMethodsAndClass(packageName);
         if(MapUtils.isNotEmpty(tasks))
