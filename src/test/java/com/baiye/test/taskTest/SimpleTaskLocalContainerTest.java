@@ -26,8 +26,8 @@ public class SimpleTaskLocalContainerTest {
     public void simpleTaskTest()
     {
         ExecutorService executorService  = Executors.newFixedThreadPool(4);
-        Container container = new SimpleTaskLocalContainer("com.baiye.test.taskTest");
-        executorService.execute(container);
-        executorService.shutdown();
+        Container container = new SimpleTaskLocalContainer();
+        container.addTasks("com.baiye.test.taskTest");
+
     }
 }

@@ -27,10 +27,8 @@ public class SchedulerTaskLocalContainerTest {
     @Test
     public void schedulerTaskTest()
     {
-        ExecutorService executorService  = Executors.newFixedThreadPool(4);
-        Container container = new SchedulerTaskLocalContainer("com.baiye.test.taskTest");
-        executorService.execute(container);
-        executorService.shutdown();
+        Container container = new SchedulerTaskLocalContainer();
+        container.addTasks("com.baiye.test.taskTest");
 
         try {
             Thread.sleep(1000);
