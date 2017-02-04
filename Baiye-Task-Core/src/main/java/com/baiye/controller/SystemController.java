@@ -2,10 +2,12 @@ package com.baiye.controller;
 
 import com.baiye.exception.BaiyeTaskException;
 import com.baiye.helper.IOHelper;
+import com.baiye.service.TaskService;
 import com.baiye.single.SingleMapEnum;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +28,10 @@ import java.util.concurrent.ScheduledFuture;
 
 @Controller
 public class SystemController {
+
+
+    @Autowired
+    private TaskService taskService;
 
     @RequestMapping("/healthCheck")
     @ResponseBody
@@ -55,6 +61,7 @@ public class SystemController {
         String jarFilePath = request.getContextPath() + "/jobs/" + jobJar.getOriginalFilename();
         try {
             IOHelper.writeFile(jarFilePath, jobJar.getBytes());
+            taskService.addTask(jarFilePath,packagesToScan);
         } catch (IOException e) {
             throw new BaiyeTaskException(e);
         }

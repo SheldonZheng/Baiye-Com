@@ -16,6 +16,6 @@ public class TaskServiceImpl implements TaskService{
 
     @Override
     public void addTask(String jarFilePath, String packageName) {
-
+        schedulerTaskLocalContainer.addTasks(packageName,jarFilePath);
     }
 }
