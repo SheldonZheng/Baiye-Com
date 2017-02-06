@@ -54,7 +54,7 @@ public class SystemController {
         return result;
     }
 
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @RequestMapping(value = "/uploadJar", method = RequestMethod.POST)
     public String upload(HttpServletRequest request, String packagesToScan, @RequestParam MultipartFile jobJar) {
         Assert.notNull(jobJar, "jobJar can't be null.");
         Assert.notNull(packagesToScan, "packagesToScan can't be empty.");
