@@ -16,7 +16,6 @@ dependencies {
     compile(
             [group: 'io.netty', name: 'netty-all', version: '4.1.5.Final'],
             [group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'],
-            [group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.21'],
             [group: 'org.apache.zookeeper', name: 'zookeeper', version: '3.4.9'],
             [group: 'org.apache.curator', name: 'curator-framework', version: '2.11.1'],
             [group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'],
