@@ -1,5 +1,6 @@
 package com.baiye.controller;
 
+import com.baiye.common.helper.ControllerHelper;
 import com.baiye.exception.BaiyeTaskException;
 import com.baiye.helper.IOHelper;
 import com.baiye.service.TaskService;
@@ -10,10 +11,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,8 +28,6 @@ import java.util.concurrent.ScheduledFuture;
 public class SystemController {
 
 
-    @Autowired
-    private TaskService taskService;
 
     @RequestMapping("/healthCheck")
     @ResponseBody
@@ -39,32 +35,5 @@ public class SystemController {
         return "ok";
     }
 
-    @RequestMapping("/runningTasks")
-    @ResponseBody
-    public List<String> runningTasks()
-    {
-        List<String> result = Lists.newArrayList();
-        Map<String,ScheduledFuture> scheduledFutureMap = SingleMapEnum.LocalTaskFutureSingleMap.getMap();
-        if(scheduledFutureMap != null && scheduledFutureMap.size() > 0)
-        {
-            for (Map.Entry<String, ScheduledFuture> entry : scheduledFutureMap.entrySet()) {
-                result.add(entry.getKey());
-            }
-        }
-        return result;
-    }
 
-    @RequestMapping(value = "/uploadJar", method = RequestMethod.POST)
-    public String upload(HttpServletRequest request, String packagesToScan, @RequestParam MultipartFile jobJar) {
-        Assert.notNull(jobJar, "jobJar can't be null.");
-        Assert.notNull(packagesToScan, "packagesToScan can't be empty.");
-        String jarFilePath = request.getContextPath() + "/jobs/" + jobJar.getOriginalFilename();
-        try {
-            IOHelper.writeFile(jarFilePath, jobJar.getBytes());
-            taskService.addTask(jarFilePath,packagesToScan);
-        } catch (IOException e) {
-            throw new BaiyeTaskException(e);
-        }
-        return "forward:/masterSlaveJobSummaries";
-    }
 }
