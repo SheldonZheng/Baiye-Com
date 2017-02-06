@@ -6,6 +6,8 @@ import com.baiye.helper.IOHelper;
 import com.baiye.service.TaskService;
 import com.baiye.single.SingleMapEnum;
 import com.google.common.collect.Lists;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -31,13 +33,13 @@ public class TaskController {
     private TaskService taskService;
 
 
-    @RequestMapping("/runningTasks")
+    @RequestMapping(value = "/runningTasks",method = RequestMethod.GET)
     @ResponseBody
     public List<String> runningTasks()
     {
         List<String> result = Lists.newArrayList();
         Map<String,ScheduledFuture> scheduledFutureMap = SingleMapEnum.LocalTaskFutureSingleMap.getMap();
-        if(scheduledFutureMap != null && scheduledFutureMap.size() > 0)
+        if(MapUtils.isNotEmpty(scheduledFutureMap))
         {
             for (Map.Entry<String, ScheduledFuture> entry : scheduledFutureMap.entrySet()) {
                 result.add(entry.getKey());
@@ -60,4 +62,23 @@ public class TaskController {
         }
         return "success add job!";
     }
+
+    @RequestMapping(value = "/cacelTask",method = RequestMethod.GET)
+    @ResponseBody
+    public String cancelTask(@RequestParam(value = "taskName")String taskName)
+    {
+        Assert.notNull(taskName);
+        Map<String,ScheduledFuture> scheduledFutureMap = SingleMapEnum.LocalTaskFutureSingleMap.getMap();
+        if(MapUtils.isNotEmpty(scheduledFutureMap))
+        {
+            ScheduledFuture future = scheduledFutureMap.get(taskName);
+            if(future == null)
+                return "no such name task";
+            future.cancel(false);
+            return "success cancel task:".concat(taskName);
+        }
+
+        return "failed";
+    }
+
 }
