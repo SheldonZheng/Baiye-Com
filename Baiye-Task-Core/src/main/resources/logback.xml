@@ -50,6 +50,8 @@
 
     <!--com.supertv.svod.bo log configure -->
     <!--定义项目自身范围内日志输出级别 -->
+    <logger name="ch.qos.logback" level="WARN"/>
+
     <!-- 日志输出级别 -->
     <root level="INFO">
         <appender-ref ref="DAILY_LOG"/>
