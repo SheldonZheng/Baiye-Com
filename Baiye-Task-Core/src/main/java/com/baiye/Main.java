@@ -1,6 +1,8 @@
 package com.baiye;
 
 
+import com.baiye.config.CoreConfig;
+import org.aeonbits.owner.ConfigFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -13,6 +15,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Main {
 
     public static void main(String[] args) {
+        /*CoreConfig coreConfig = ConfigFactory.create(CoreConfig.class);
+        System.out.println(coreConfig.ip());*/
         SpringApplication.run(Main.class,args);
     }
 
