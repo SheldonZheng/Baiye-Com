@@ -1,15 +1,13 @@
 package com.baiye.controller;
 
-import com.baiye.common.helper.ControllerHelper;
 import com.baiye.config.CoreConfig;
 import com.baiye.exception.BaiyeTaskException;
 import com.baiye.helper.IOHelper;
 import com.baiye.service.TaskService;
 import com.baiye.single.SingleMapEnum;
 import com.google.common.collect.Lists;
-import org.aeonbits.owner.ConfigFactory;
+import org.aeonbits.owner.ConfigCache;
 import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -31,7 +29,7 @@ import java.util.concurrent.ScheduledFuture;
 @Controller
 public class TaskController {
 
-    private final CoreConfig config = ConfigFactory.create(CoreConfig.class);
+    private final CoreConfig config = ConfigCache.getOrCreate(CoreConfig.class);
 
     @Autowired
     private TaskService taskService;

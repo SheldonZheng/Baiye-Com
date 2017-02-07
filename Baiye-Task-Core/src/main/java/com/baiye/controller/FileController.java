@@ -28,8 +28,7 @@ public class FileController {
     public void downloadJarFile(@RequestParam(value = "jarFilePath") String jarFilePath, HttpServletResponse response)
     {
         File jarFile = null;
-
-            jarFile = new File(jarFilePath);
+        jarFile = new File(jarFilePath);
         if (jarFile.exists())
         {
             try {
