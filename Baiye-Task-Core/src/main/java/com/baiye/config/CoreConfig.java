@@ -17,4 +17,8 @@ public interface CoreConfig extends Config{
     @DefaultValue("127.0.0.1")
     String ip();
 
+    @Key("base.jar.path")
+    @DefaultValue("/var/baiye-task")
+    String jobJarBasePath();
+
 }
