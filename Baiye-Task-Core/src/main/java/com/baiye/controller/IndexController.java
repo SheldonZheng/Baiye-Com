@@ -14,4 +14,9 @@ public class IndexController {
     {
         return "uploadJar";
     }
+
+    @RequestMapping("/errorTest")
+    public String errorTest() throws Exception {
+        throw new Exception("");
+    }
 }
