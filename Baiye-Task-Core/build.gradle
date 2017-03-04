@@ -3,6 +3,7 @@ version '1.0'
 
 apply plugin: 'java'
 apply plugin: 'spring-boot'
+apply plugin: 'idea'
 
 apply plugin: 'application' //可选(可自动生成shell启动脚本)
 mainClassName = 'com.baiye.Main' //可选（与上行的application插件配套出现）
@@ -78,7 +79,7 @@ dependencies {
 //可选,如果想让生成的jar可直接运行,建议加上
 jar {
     manifest {
-        attributes 'Main-Class': 'com.baiye.Main'
+        attributes 'Main-Class': 'com.baiye.Bootstrap'
     }
 }
 

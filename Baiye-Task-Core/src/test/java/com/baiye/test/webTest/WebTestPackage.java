@@ -1,10 +1,8 @@
 package com.baiye.test.webTest;
 
-import com.baiye.Main;
+import com.baiye.Bootstrap;
 import com.baiye.test.TestPackage;
 import com.baiye.test.helper.ClassTestHelper;
-import com.baiye.test.taskTest.SimpleTaskLocalContainerTest;
-import org.springframework.boot.SpringApplication;
 
 /**
  * Created by Baiye on 2017/2/3.
@@ -20,7 +18,7 @@ public class WebTestPackage implements TestPackage{
 
     @Override
     public void runTests() {
-        Main.main(new String[]{});
+        Bootstrap.main(new String[]{});
         ClassTestHelper.testClass(InterfaceTest.class);
     }
 }
