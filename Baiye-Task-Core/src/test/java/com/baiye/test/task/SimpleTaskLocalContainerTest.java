@@ -1,4 +1,4 @@
-package com.baiye.test.taskTest;
+package com.baiye.test.task;
 
 import com.baiye.annotation.TaskClass;
 import com.baiye.annotation.TaskMethod;
@@ -27,7 +27,7 @@ public class SimpleTaskLocalContainerTest {
     {
         ExecutorService executorService  = Executors.newFixedThreadPool(4);
         Container container = new SimpleTaskLocalContainer();
-        container.addTasks("com.baiye.test.taskTest");
+        container.addTasks("com.baiye.test.task");
 
     }
 }

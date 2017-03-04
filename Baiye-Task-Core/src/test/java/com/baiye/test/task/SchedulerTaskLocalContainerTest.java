@@ -1,4 +1,4 @@
-package com.baiye.test.taskTest;
+package com.baiye.test.task;
 
 import com.baiye.annotation.SchedulerTask;
 import com.baiye.annotation.TaskClass;
@@ -8,8 +8,6 @@ import com.baiye.single.SingleMapEnum;
 import org.junit.Test;
 
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
 
 /**
@@ -28,7 +26,7 @@ public class SchedulerTaskLocalContainerTest {
     public void schedulerTaskTest()
     {
         Container container = new SchedulerTaskLocalContainer();
-        container.addTasks("com.baiye.test.taskTest");
+        container.addTasks("com.baiye.test.task");
 
         try {
             Thread.sleep(1000);
