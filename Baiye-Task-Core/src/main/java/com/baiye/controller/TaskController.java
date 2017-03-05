@@ -3,6 +3,7 @@ package com.baiye.controller;
 import com.baiye.config.CoreConfig;
 import com.baiye.exception.BaiyeTaskException;
 import com.baiye.helper.IOHelper;
+import com.baiye.model.JsonResult;
 import com.baiye.service.TaskService;
 import com.baiye.single.SingleMapEnum;
 import com.google.common.collect.Lists;
@@ -37,17 +38,10 @@ public class TaskController {
 
     @RequestMapping(value = "/runningTasks",method = RequestMethod.GET)
     @ResponseBody
-    public List<String> runningTasks()
+    public JsonResult<List<String>> runningTasks()
     {
-        List<String> result = Lists.newArrayList();
-        Map<String,ScheduledFuture> scheduledFutureMap = SingleMapEnum.LocalTaskFutureSingleMap.getMap();
-        if(MapUtils.isNotEmpty(scheduledFutureMap))
-        {
-            for (Map.Entry<String, ScheduledFuture> entry : scheduledFutureMap.entrySet()) {
-                result.add(entry.getKey());
-            }
-        }
-        return result;
+        List<String> tasks = taskService.runningTasks();
+        return JsonResult.buildSuccessResult(tasks);
     }
 
     @RequestMapping(value = "/uploadJar", method = RequestMethod.POST)
