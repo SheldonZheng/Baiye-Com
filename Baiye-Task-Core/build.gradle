@@ -2,16 +2,15 @@ group 'website.baiye'
 version '1.0'
 
 apply plugin: 'java'
-apply plugin: 'spring-boot'
-apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
 
 apply plugin: 'application' //可选(可自动生成shell启动脚本)
 mainClassName = 'com.baiye.Main' //可选（与上行的application插件配套出现）
 
 sourceCompatibility = 1.8
 
-
 [compileJava,compileTestJava,javadoc]*.options*.encoding = 'UTF-8'
+
 
 sourceSets {
     main {
