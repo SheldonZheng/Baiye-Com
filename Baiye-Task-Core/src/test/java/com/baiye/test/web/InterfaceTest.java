@@ -1,10 +1,6 @@
-package com.baiye.test.webTest;
+package com.baiye.test.web;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClients;
-import org.junit.Assert;
+import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.io.IOException;
+import static org.junit.Assert.assertThat;
+
 
 /**
  * Created by Baiye on 2017/2/3.
@@ -25,10 +22,17 @@ public class InterfaceTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    public void healthCheck()
+    public void healthCheckTest()
     {
         String res = restTemplate.getForObject("/healthCheck",String.class);
-        Assert.assertEquals(res,"ok");
+        assertThat(res,CoreMatchers.is("ok"));
+    }
+
+    @Test
+    public void runningTasksTest()
+    {
+        String res = restTemplate.getForObject("/runningTasks",String.class);
+        assertThat(res, CoreMatchers.containsString("success"));
     }
 
 
