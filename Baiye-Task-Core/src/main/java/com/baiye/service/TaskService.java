@@ -10,4 +10,6 @@ public interface TaskService {
     void addTask(String jarFilePath, String packageName);
 
     List<String> runningTasks();
+
+    boolean cancelTask(String taskName);
 }

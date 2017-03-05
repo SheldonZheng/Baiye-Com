@@ -26,6 +26,19 @@ public class TaskServiceImpl implements TaskService{
     private SchedulerTaskLocalContainer schedulerTaskLocalContainer;
 
     @Override
+    public boolean cancelTask(String taskName) {
+        if(MapUtils.isNotEmpty(taskFutureMap))
+        {
+            ScheduledFuture future = taskFutureMap.get(taskName);
+            if(future == null)
+                return false;
+            future.cancel(false);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public void addTask(String jarFilePath, String packageName) {
         schedulerTaskLocalContainer.addTasks(packageName,jarFilePath);
     }

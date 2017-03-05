@@ -18,11 +18,34 @@ public class JsonResult<T> implements Serializable{
 
     private String code;
 
-    private T t;
+    private T data;
 
     public static JsonResult buildSuccessResult(Object data)
     {
-        return new JsonResult("success","0",data);
+        return JsonResult.builder()
+                .msg("success")
+                .code("0")
+                .data(data)
+                .build();
     }
+
+    public static JsonResult buildErrorResult(Object data,String msg,String code)
+    {
+        return JsonResult.builder()
+                .msg(msg)
+                .code(code)
+                .data(data)
+                .build();
+    }
+
+    public static JsonResult buildErrorResult(Object data) {
+        return JsonResult.builder()
+                .msg("error")
+                .code("1")
+                .data(data)
+                .build();
+    }
+
+
 
 }

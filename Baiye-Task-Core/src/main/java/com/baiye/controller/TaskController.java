@@ -61,20 +61,15 @@ public class TaskController {
 
     @RequestMapping(value = "/cacelTask",method = RequestMethod.GET)
     @ResponseBody
-    public String cancelTask(@RequestParam(value = "taskName")String taskName)
+    public JsonResult<String> cancelTask(@RequestParam(value = "taskName")String taskName)
     {
         Assert.notNull(taskName);
-        Map<String,ScheduledFuture> scheduledFutureMap = SingleMapEnum.LocalTaskFutureSingleMap.getMap();
-        if(MapUtils.isNotEmpty(scheduledFutureMap))
-        {
-            ScheduledFuture future = scheduledFutureMap.get(taskName);
-            if(future == null)
-                return "no such name task";
-            future.cancel(false);
-            return "success cancel task:".concat(taskName);
+        if(taskService.cancelTask(taskName)) {
+            return JsonResult.buildSuccessResult("success cancel task:".concat(taskName));
         }
-
-        return "failed";
+        else {
+            return JsonResult.buildErrorResult("cancel task failed.");
+        }
     }
 
 }
