@@ -1,6 +1,6 @@
 package com.baiye.test.web;
 
-import org.hamcrest.CoreMatchers;
+import com.google.common.collect.Maps;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Map;
+
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
 
@@ -25,15 +28,23 @@ public class InterfaceTest {
     public void healthCheckTest()
     {
         String res = restTemplate.getForObject("/healthCheck",String.class);
-        assertThat(res,CoreMatchers.is("ok"));
+        assertThat(res,is("ok"));
     }
 
     @Test
     public void runningTasksTest()
     {
         String res = restTemplate.getForObject("/runningTasks",String.class);
-        assertThat(res, CoreMatchers.containsString("success"));
+        assertThat(res, containsString("success"));
     }
 
+    @Test
+    public void cancelTaskFailTest()
+    {
+        Map<String,Object> params = Maps.newHashMap();
+        params.put("taskName","1");
+        String res = restTemplate.getForObject("/cancelTask?taskName={taskName}",String.class,params);
+        assertThat(res,containsString("failed"));
+    }
 
 }

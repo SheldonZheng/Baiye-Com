@@ -59,7 +59,7 @@ public class TaskController {
         return "success add job!";
     }
 
-    @RequestMapping(value = "/cacelTask",method = RequestMethod.GET)
+    @RequestMapping(value = "/cancelTask",method = RequestMethod.GET)
     @ResponseBody
     public JsonResult<String> cancelTask(@RequestParam(value = "taskName")String taskName)
     {
