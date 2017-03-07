@@ -24,6 +24,9 @@ public abstract class AbstractContainer implements Container{
         init();
     }
 
+    /**
+     * 初始化ScheduledExecutorService
+     */
     protected abstract void init();
 
 }
