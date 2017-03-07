@@ -16,17 +16,11 @@ import java.util.concurrent.ScheduledFuture;
 @TaskClass
 public class SchedulerTaskLocalContainerTest {
 
-    @SchedulerTask(name = "test1",firstDelay = 1000,delay = 1000)
-    public void test()
-    {
-        System.out.println("SchedulerTaskLocalContainer test success!");
-    }
-
-   @Test
+    @Test
     public void schedulerTaskTest()
     {
         Container container = new SchedulerTaskLocalContainer();
-        container.addTasks("com.baiye.test.task");
+        container.addTasks("com.baiye.test.task","D:\\Source\\Baiye-Task\\others\\test.jar");
 
         try {
             Thread.sleep(1000);
@@ -45,12 +39,12 @@ public class SchedulerTaskLocalContainerTest {
             }
         }
     }
-
+/*
     @Test
     public void addTaskTest()
     {
         Container container = new SchedulerTaskLocalContainer();
-        container.addTasks("com.baiye.test.taskTest1","D:\\test.jar");
+        container.addTasks("com.baiye.test.taskTest1","D:\\Source\\Baiye-Task\\others\\test.jar");
 
         try {
             Thread.sleep(1000);
@@ -68,5 +62,5 @@ public class SchedulerTaskLocalContainerTest {
                 e.printStackTrace();
             }
         }
-    }
+    }*/
 }

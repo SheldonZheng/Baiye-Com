@@ -15,19 +15,11 @@ import java.util.concurrent.Executors;
 @TaskClass
 public class SimpleTaskLocalContainerTest {
 
-    @TaskMethod
-    public void test()
-    {
-        System.out.println("SimpleTaskLocalContainer test success!");
-    }
-
-
     @Test
     public void simpleTaskTest()
     {
         ExecutorService executorService  = Executors.newFixedThreadPool(4);
         Container container = new SimpleTaskLocalContainer();
-        container.addTasks("com.baiye.test.task");
-
+        container.addTasks("com.baiye.test.task","D:\\Source\\Baiye-Task\\others\\test.jar");
     }
 }
