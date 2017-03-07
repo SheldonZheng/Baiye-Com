@@ -73,7 +73,6 @@ dependencies {
     // https://mvnrepository.com/artifact/org.projectlombok/lombok
     compile group: 'org.projectlombok', name: 'lombok', version: '1.16.14'
 
-
     testCompile "junit:junit:4.12"
 
 

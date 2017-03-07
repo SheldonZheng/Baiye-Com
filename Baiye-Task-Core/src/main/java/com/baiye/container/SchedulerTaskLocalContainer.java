@@ -38,16 +38,6 @@ public class SchedulerTaskLocalContainer extends AbstractContainer{
     }
 
     @Override
-    public void addTasks(String packageName)
-    {
-        Map<Class,List<Method>> tasks = ClassHelper.getSchedulerTaskMethodsAndClass(packageName);
-        if(MapUtils.isNotEmpty(tasks))
-        {
-            doRunTasks(tasks);
-        }
-    }
-
-    @Override
     public void addTasks(String packageName, String jarFilePath) {
         Map<Class,List<Method>> tasks = ClassHelper.getSchedulerTaskMethodsAndClass(packageName,jarFilePath);
         if(MapUtils.isNotEmpty(tasks))
