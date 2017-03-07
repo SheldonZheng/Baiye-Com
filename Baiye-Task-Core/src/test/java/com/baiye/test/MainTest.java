@@ -1,7 +1,6 @@
 package com.baiye.test;
 
 
-import com.baiye.test.helper.ClassTestHelper;
 import com.baiye.test.task.SchedulerTaskLocalContainerTest;
 import com.baiye.test.task.SimpleTaskLocalContainerTest;
 import com.baiye.test.web.InterfaceTest;
