@@ -1,28 +1,41 @@
 package com.baiye.container;
 
 import com.baiye.annotation.SchedulerTask;
+import com.baiye.annotation.TaskClass;
 import com.baiye.exception.BaiyeTaskException;
 import com.baiye.helper.ClassHelper;
-import com.baiye.single.SingleMapEnum;
+import com.baiye.service.ClassScanerService;
 import com.baiye.task.SimpleTask;
 import com.baiye.task.Task;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.*;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Baiye on 28/01/2017.
  */
 @Component
-public class SchedulerTaskLocalContainer extends AbstractContainer{
+public class SchedulerTaskLocalContainer extends AbstractContainer {
 
 
-    private Map<String,ScheduledFuture> scheduledFutureMap = SingleMapEnum.LocalTaskFutureSingleMap.getMap();
+    @Autowired
+    @Qualifier("taskFutureMap")
+    private Map<String, ScheduledFuture> scheduledFutureMap;
+
+    @Autowired
+    private ClassScanerService scanerService;
 
     public SchedulerTaskLocalContainer() {
         super();
@@ -38,30 +51,28 @@ public class SchedulerTaskLocalContainer extends AbstractContainer{
     }
 
     @Override
-    public void addTasks(String packageName, String jarFilePath) {
-        Map<Class,List<Method>> tasks = ClassHelper.getSchedulerTaskMethodsAndClass(packageName,jarFilePath);
-        if(MapUtils.isNotEmpty(tasks))
-        {
-            doRunTasks(tasks);
+    public void addTasks(String packageName, String jarFilePath) throws MalformedURLException, ExecutionException {
+        Set<Class<?>> classSet = scanerService.getClasses(packageName, jarFilePath, TaskClass.class);
+        if (CollectionUtils.isNotEmpty(classSet)) {
+            classSet.forEach(cls -> {
+                List<Method> methodList = scanerService.getAnnotationMethods(cls, SchedulerTask.class);
+                if (CollectionUtils.isNotEmpty(methodList)) {
+                    methodList.forEach( method -> {
+                        doRunTasks(cls,method);
+                    });
+                }
+            });
         }
     }
 
 
-    private void doRunTasks(Map<Class,List<Method>> tasks)
-    {
-        tasks.forEach( (key,value) ->
-        {
-            if(CollectionUtils.isNotEmpty(value))
-            {
-                value.forEach( method -> {
-                    SchedulerTask schedulerTask = method.getAnnotation(SchedulerTask.class);
-                    Task task = new SimpleTask(ClassHelper.newInstance(key),method,new Object[]{});
-                    if(scheduledFutureMap.containsKey(schedulerTask.name()))
-                        throw new BaiyeTaskException("已存在相同名称的任务");
-                    ScheduledFuture scheduledFuture = executorService.scheduleAtFixedRate(task,schedulerTask.firstDelay(),schedulerTask.delay(), TimeUnit.MILLISECONDS);
-                    scheduledFutureMap.put(schedulerTask.name(),scheduledFuture);
-                });
-            }
-        });
+    private void doRunTasks(Class cls, Method method) {
+
+        SchedulerTask schedulerTask = method.getAnnotation(SchedulerTask.class);
+        Task task = new SimpleTask(ClassHelper.newInstance(cls), method, new Object[]{});
+        if (scheduledFutureMap.containsKey(schedulerTask.name()))
+            throw new BaiyeTaskException("已存在相同名称的任务");
+        ScheduledFuture scheduledFuture = executorService.scheduleAtFixedRate(task, schedulerTask.firstDelay(), schedulerTask.delay(), TimeUnit.MILLISECONDS);
+        scheduledFutureMap.put(schedulerTask.name(), scheduledFuture);
     }
 }

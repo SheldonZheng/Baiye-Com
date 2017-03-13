@@ -12,10 +12,12 @@ import org.apache.commons.collections4.MapUtils;
 import com.baiye.helper.ClassHelper;
 import com.baiye.task.SimpleTask;
 import com.baiye.task.Task;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by Baiye on 2017/1/19.
  */
+@Component
 public class SimpleTaskLocalContainer extends AbstractContainer{
 
     private ExecutorService executorService;
