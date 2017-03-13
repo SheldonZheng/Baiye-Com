@@ -4,6 +4,8 @@ import com.baiye.container.SchedulerTaskLocalContainer;
 import com.baiye.service.TaskService;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.MapUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -20,11 +22,14 @@ import java.util.concurrent.ScheduledFuture;
 @Service
 public class TaskServiceImpl implements TaskService{
 
+    private Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
+
     @Autowired
     @Qualifier("taskFutureMap")
     private Map<String,ScheduledFuture> taskFutureMap;
 
     @Autowired
+    @Qualifier("schedulerTaskLocalContainer")
     private SchedulerTaskLocalContainer schedulerTaskLocalContainer;
 
     @Override
@@ -45,8 +50,10 @@ public class TaskServiceImpl implements TaskService{
         try {
             schedulerTaskLocalContainer.addTasks(packageName,jarFilePath);
         } catch (MalformedURLException e) {
+            logger.error("addTask error!{}",e);
             e.printStackTrace();
         } catch (ExecutionException e) {
+            logger.error("addTask error!{}",e);
             e.printStackTrace();
         }
     }
