@@ -2,6 +2,7 @@ package com.baiye.service.impl;
 
 import com.baiye.classloader.BaiyeClassLoader;
 import com.baiye.service.ClassScanerService;
+import com.google.common.cache.Cache;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -21,6 +22,7 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -35,7 +37,7 @@ public class ClassScanerServiceImpl implements ClassScanerService{
 
     @Autowired
     @Qualifier("classLoaderCache")
-    private LoadingCache<String,ClassLoader> classLoaderCache;
+    private Cache<String,ClassLoader> classLoaderCache;
 
     @Override
     public Set<Class<?>> getClasses(String packageName, String jarFilePath) throws MalformedURLException, ExecutionException {
@@ -96,16 +98,17 @@ public class ClassScanerServiceImpl implements ClassScanerService{
      * @throws MalformedURLException
      */
     private ClassLoader getClassLoader(String packageName,File file) throws ExecutionException, MalformedURLException {
-        ClassLoader classLoader = classLoaderCache.get(file.getName().concat(packageName));
-        if(classLoader != null) {
-            return classLoader;
-        } else {
-            URL url = file.toURI().toURL();
-            BaiyeClassLoader baiyeClassLoader = new BaiyeClassLoader(new URL[]{url});
-            baiyeClassLoader.addURL(url);
-            classLoaderCache.put(file.getName().concat(packageName),baiyeClassLoader);
-            return baiyeClassLoader;
-        }
+        ClassLoader classLoader = classLoaderCache.get(file.getName().concat(packageName), new Callable<ClassLoader>() {
+            @Override
+            public ClassLoader call() throws Exception {
+                URL url = file.toURI().toURL();
+                BaiyeClassLoader baiyeClassLoader = new BaiyeClassLoader(new URL[]{url});
+                baiyeClassLoader.addURL(url);
+                classLoaderCache.put(file.getName().concat(packageName),baiyeClassLoader);
+                return baiyeClassLoader;
+            }
+        });
+        return classLoader;
     }
 
     private Set<Class<?>> getClassSet(String packageName,ClassLoader classLoader,String jarFilePath,Class<? extends Annotation> annotation)
@@ -121,9 +124,11 @@ public class ClassScanerServiceImpl implements ClassScanerService{
                     String jarEntryName = entrys.nextElement().getName();
                     if(StringUtils.isNotBlank(jarEntryName) && jarEntryName.endsWith(".class")) {
                         String clsName = getClassName(jarEntryName);
-                        Class cls = classLoader.loadClass(clsName);
-                        if(cls != null && annotation != null ? cls.isAnnotationPresent(annotation) : true)
-                            classSet.add(cls);
+                        if(clsName.contains(packageName)) {
+                            Class cls = classLoader.loadClass(clsName);
+                            if(cls != null && annotation != null ? cls.isAnnotationPresent(annotation) : true)
+                                classSet.add(cls);
+                        }
                     }
                 }
             }
@@ -134,7 +139,7 @@ public class ClassScanerServiceImpl implements ClassScanerService{
             logger.error("get class set failure{}",e);
             e.printStackTrace();
         }
-        return null;
+        return classSet;
     }
 
     private static String getClassName(String jarEntryName) {

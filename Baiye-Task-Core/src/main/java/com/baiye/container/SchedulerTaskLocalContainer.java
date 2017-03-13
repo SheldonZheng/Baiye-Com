@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Baiye on 28/01/2017.
  */
-@Component
+@Component("schedulerTaskLocalContainer")
 public class SchedulerTaskLocalContainer extends AbstractContainer {
 
 
