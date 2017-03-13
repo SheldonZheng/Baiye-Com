@@ -8,7 +8,6 @@ import com.baiye.service.ClassScanerService;
 import com.baiye.task.SimpleTask;
 import com.baiye.task.Task;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -58,15 +57,15 @@ public class SchedulerTaskLocalContainer extends AbstractContainer {
                 List<Method> methodList = scanerService.getAnnotationMethods(cls, SchedulerTask.class);
                 if (CollectionUtils.isNotEmpty(methodList)) {
                     methodList.forEach( method -> {
-                        doRunTasks(cls,method);
+                        doRunTask(cls,method);
                     });
                 }
             });
         }
     }
 
-
-    private void doRunTasks(Class cls, Method method) {
+    @Override
+    public void doRunTask(Class cls, Method method) {
 
         SchedulerTask schedulerTask = method.getAnnotation(SchedulerTask.class);
         Task task = new SimpleTask(ClassHelper.newInstance(cls), method, new Object[]{});
