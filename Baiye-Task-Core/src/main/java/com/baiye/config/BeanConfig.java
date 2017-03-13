@@ -1,5 +1,6 @@
 package com.baiye.config;
 
+import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -24,17 +25,12 @@ public class BeanConfig {
     }
 
     @Bean("classLoaderCache")
-    public LoadingCache<String,ClassLoader> classLoaderCache()
+    public Cache<String,ClassLoader> classLoaderCache()
     {
         return CacheBuilder
                 .newBuilder()
                 .expireAfterAccess(1, TimeUnit.DAYS)
-                .build(new CacheLoader<String, ClassLoader>() {
-                    @Override
-                    public ClassLoader load(String key) throws Exception {
-                        return null;
-                    }
-                });
+                .build();
 
     }
 

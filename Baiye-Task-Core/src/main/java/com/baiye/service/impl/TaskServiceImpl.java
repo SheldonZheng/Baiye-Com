@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledFuture;
 
 /**
@@ -40,7 +42,13 @@ public class TaskServiceImpl implements TaskService{
 
     @Override
     public void addTask(String jarFilePath, String packageName) {
-        schedulerTaskLocalContainer.addTasks(packageName,jarFilePath);
+        try {
+            schedulerTaskLocalContainer.addTasks(packageName,jarFilePath);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

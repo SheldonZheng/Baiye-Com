@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 /**
  * Created by Baiye on 2017/1/19.
  */
-@Component
+@Component("simpleTaskLocalContainer")
 public class SimpleTaskLocalContainer extends AbstractContainer{
 
     private ExecutorService executorService;
