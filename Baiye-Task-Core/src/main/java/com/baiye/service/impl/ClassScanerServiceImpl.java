@@ -3,8 +3,8 @@ package com.baiye.service.impl;
 import com.baiye.classloader.BaiyeClassLoader;
 import com.baiye.service.ClassScanerService;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,14 +14,16 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.zip.ZipEntry;
 
 /**
  * Created by hang.zheng on 2017/3/7.
@@ -42,11 +44,48 @@ public class ClassScanerServiceImpl implements ClassScanerService{
             throw new RuntimeException("jar文件不存在!");
         }
         ClassLoader classLoader = getClassLoader(packageName,file);
-        Set<Class<?>> classSet = getClassSet(packageName,classLoader,jarFilePath);
+        Set<Class<?>> classSet = getClassSet(packageName,classLoader,jarFilePath,null);
 
         return classSet;
     }
 
+    /**
+     * 获取标记了指定注解的Class
+     * @param packageName
+     * @param jarFilePath
+     * @param annotation
+     * @return
+     * @throws MalformedURLException
+     * @throws ExecutionException
+     */
+    @Override
+    public Set<Class<?>> getClasses(String packageName, String jarFilePath, Class<? extends Annotation> annotation) throws MalformedURLException, ExecutionException {
+        File file = new File(jarFilePath);
+        if(!file.exists()) {
+            throw new RuntimeException("jar文件不存在!");
+        }
+        ClassLoader classLoader = getClassLoader(packageName,file);
+        Set<Class<?>> classSet = getClassSet(packageName,classLoader,jarFilePath,annotation);
+
+        return classSet;
+    }
+
+    /**
+     * 获取一个cls里所有标记了指定注解的方法
+     * @param cls
+     * @param annotation
+     * @return
+     */
+    @Override
+    public List<Method> getAnnotationMethods(Class cls, Class<? extends Annotation> annotation) {
+        List<Method> methodList = Lists.newArrayList();
+        Method[] methods = cls.getMethods();
+        for (Method method : methods) {
+            if(method.isAnnotationPresent(annotation))
+                methodList.add(method);
+        }
+        return methodList;
+    }
 
     /**
      * 为每一个jar包创建一个私有的ClassLoader
@@ -69,7 +108,7 @@ public class ClassScanerServiceImpl implements ClassScanerService{
         }
     }
 
-    private Set<Class<?>> getClassSet(String packageName,ClassLoader classLoader,String jarFilePath)
+    private Set<Class<?>> getClassSet(String packageName,ClassLoader classLoader,String jarFilePath,Class<? extends Annotation> annotation)
     {
         Set<Class<?>> classSet = Sets.newHashSet();
 
@@ -83,7 +122,7 @@ public class ClassScanerServiceImpl implements ClassScanerService{
                     if(StringUtils.isNotBlank(jarEntryName) && jarEntryName.endsWith(".class")) {
                         String clsName = getClassName(jarEntryName);
                         Class cls = classLoader.loadClass(clsName);
-                        if(cls != null)
+                        if(cls != null && annotation != null ? cls.isAnnotationPresent(annotation) : true)
                             classSet.add(cls);
                     }
                 }
